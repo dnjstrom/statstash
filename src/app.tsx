@@ -6,11 +6,14 @@ export const App = () => {
   const { stats, addStat, removeStat } = useStats()
 
   return (
-    <>
+    <div className="flex flex-col gap-6">
       <h1 className="text-2xl">StatStash</h1>
 
-      <div className="flex flex-col gap-2">
-        {[...stats.entries()].map(([key, value]) => (
+      <hr />
+
+      {[...stats.entries()]
+        .sort((a, b) => a[0].localeCompare(b[0]))
+        .map(([key, value]) => (
           <div className="flex gap-4 justify-center items-center">
             {key}:
             <input
@@ -21,38 +24,40 @@ export const App = () => {
               value={value}
             />
             <button
+              className="cursor-pointer"
               onClick={() => {
                 removeStat(key)
               }}
             >
-              Remove
+              ❌
             </button>
           </div>
         ))}
 
-        <form
-          onSubmit={(event) => {
-            event.preventDefault()
-            event.stopPropagation()
-            const formData = new FormData(event.currentTarget)
+      <hr />
 
-            const key = formData.get("key")
+      <form
+        onSubmit={(event) => {
+          event.preventDefault()
+          event.stopPropagation()
+          const formData = new FormData(event.currentTarget)
 
-            if (!key || typeof key !== "string") return
+          const key = formData.get("key")
 
-            addStat(key, "")
+          if (!key || typeof key !== "string") return
 
-            event.currentTarget.reset()
-          }}
-        >
-          <label>
-            New stat: <input className="border px-1" name="key" />
-          </label>
-          <button className="ml-1">Add</button>
-        </form>
-      </div>
+          addStat(key, "")
+
+          event.currentTarget.reset()
+        }}
+      >
+        <label>
+          New stat: <input className="border px-1" name="key" />
+        </label>
+        <button className="cursor-pointer ml-1">Add</button>
+      </form>
 
       <PWABadge />
-    </>
+    </div>
   )
 }

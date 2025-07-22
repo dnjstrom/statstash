@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from "preact/hooks"
-import "./sync.ts"
-import { startSync } from "./sync.ts"
+import "./useDbChanges.ts"
+import { useDbChanges } from "./useDbChanges.ts"
 import z from "zod"
 import { useImmer } from "use-immer"
 import { enableMapSet } from "immer"
@@ -39,50 +39,30 @@ export const useStats = () => {
     return s
   }
 
-  const setupSync = async () => {
-    // Set up listeners for remote changes
-    const { docs, handle } = await startSync((change) => {
-      change.change.docs.forEach((doc) => {
-        // Handle remote deletes
-        if ("_deleted" in doc) {
-          return setStats((prev) => {
-            prev.delete(doc._id)
-          })
-        }
-
-        // Handle remote updates
-        const { data: stat } = z.safeParse(StatDoc, doc)
-
-        if (!stat) return
-
-        setStats((previous) => {
-          if (previous.has(stat._id)) {
-            const current = previous.get(stat._id)!
-            current.value = stat.value
-          } else {
-            previous.set(stat._id, makeSignal(doc._id, stat.value))
-          }
+  const initialDocs = useDbChanges((change) => {
+    change.change.docs.forEach((doc) => {
+      // Handle remote deletes
+      if ("_deleted" in doc) {
+        return setStats((prev) => {
+          prev.delete(doc._id)
         })
-      })
-    })
+      }
 
-    // Set up initial docs
-    docs.forEach((doc) => {
+      // Handle remote updates
       const { data: stat } = z.safeParse(StatDoc, doc)
 
-      if (!stat || !doc?._id) return
+      if (!stat) return
 
-      setStats((prev) => {
-        const s = makeSignal(doc._id, stat.value)
-        return prev.set(stat._id, s)
+      setStats((previous) => {
+        if (previous.has(stat._id)) {
+          const current = previous.get(stat._id)!
+          current.value = stat.value
+        } else {
+          previous.set(stat._id, makeSignal(doc._id, stat.value))
+        }
       })
     })
-
-    // Handle remounts gracefully
-    return () => {
-      handle.cancel()
-    }
-  }
+  })
 
   const addStat = useCallback(
     async (_id: Stat["_id"], value: Stat["value"]) => {
@@ -107,7 +87,19 @@ export const useStats = () => {
   }, [])
 
   // Initialize db sync on mount
-  useEffect(() => void setupSync(), [])
+  useEffect(() => {
+    // Set up initial docs
+    initialDocs?.forEach((doc) => {
+      const { data: stat } = z.safeParse(StatDoc, doc)
+
+      if (!stat || !doc?._id) return
+
+      setStats((prev) => {
+        const s = makeSignal(doc._id, stat.value)
+        return prev.set(stat._id, s)
+      })
+    })
+  }, [initialDocs])
 
   return { stats, addStat, removeStat }
 }
