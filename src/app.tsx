@@ -1,53 +1,9 @@
-import { useEffect, useState } from "preact/hooks"
 import PWABadge from "./PWABadge.tsx"
 import "./app.css"
-import "./sync.ts"
-import { startSync } from "./sync.ts"
-import z from "zod"
-
-const StatDoc = z.object({
-  key: z.string(),
-  value: z.union([z.string(), z.number()]).optional(),
-})
-
-type Stat = z.infer<typeof StatDoc>
+import { useStats } from "./useStats.ts"
 
 export const App = () => {
-  const [stats, setStats] = useState(new Map<Stat["key"], Stat["value"]>())
-
-  const setupSync = async () => {
-    const { docs, handle } = await startSync((change) => {
-      console.log("change", change)
-      const updated = new Map(stats)
-
-      change.change.docs.forEach((doc) => {
-        const { data: stat } = z.safeParse(StatDoc, doc)
-
-        if (!stat) return
-
-        updated.set(stat.key, stat.value)
-      })
-
-      setStats(updated)
-    })
-
-    // Set up initial docs
-    const updated = new Map(stats)
-    docs.forEach((doc) => {
-      const { data: stat } = z.safeParse(StatDoc, doc)
-
-      if (!stat) return
-
-      updated.set(stat.key, stat.value)
-    })
-    setStats(updated)
-
-    return () => {
-      handle.cancel()
-    }
-  }
-
-  useEffect(() => void setupSync(), [])
+  const { stats, addStat, removeStat } = useStats()
 
   return (
     <>
@@ -55,10 +11,45 @@ export const App = () => {
 
       <div className="flex flex-col gap-2">
         {[...stats.entries()].map(([key, value]) => (
-          <div>
-            {key}: {value}
+          <div className="flex gap-4 justify-center items-center">
+            {key}:
+            <input
+              className="border px-1"
+              onInput={(updated) => {
+                value.value = updated.currentTarget.value
+              }}
+              value={value}
+            />
+            <button
+              onClick={() => {
+                removeStat(key)
+              }}
+            >
+              Remove
+            </button>
           </div>
         ))}
+
+        <form
+          onSubmit={(event) => {
+            event.preventDefault()
+            event.stopPropagation()
+            const formData = new FormData(event.currentTarget)
+
+            const key = formData.get("key")
+
+            if (!key || typeof key !== "string") return
+
+            addStat(key, "")
+
+            event.currentTarget.reset()
+          }}
+        >
+          <label>
+            New stat: <input className="border px-1" name="key" />
+          </label>
+          <button className="ml-1">Add</button>
+        </form>
       </div>
 
       <PWABadge />
