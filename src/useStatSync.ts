@@ -12,11 +12,11 @@ const StatDoc = z.object({
   value: z.union([z.string(), z.number()]),
 })
 
-type Stat = z.infer<typeof StatDoc>
+export type Stat = z.infer<typeof StatDoc>
 
 enableMapSet()
 
-export const useStats = () => {
+export const useStatSync = () => {
   const [stats, setStats] = useImmer(
     new Map<Stat["_id"], Signal<Stat["value"]>>()
   )

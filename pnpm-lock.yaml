@@ -20,6 +20,9 @@ dependencies:
   preact:
     specifier: ^10.25.4
     version: 10.26.9
+  preact-iso:
+    specifier: ^2.9.2
+    version: 2.9.2(preact-render-to-string@6.5.13)(preact@10.26.9)
   tailwindcss:
     specifier: ^4.1.11
     version: 4.1.11
@@ -5998,6 +6001,30 @@ packages:
       vuvuzela: 1.0.3
     transitivePeerDependencies:
       - encoding
+    dev: false
+
+  /preact-iso@2.9.2(preact-render-to-string@6.5.13)(preact@10.26.9):
+    resolution:
+      {
+        integrity: sha512-0AiOid/B/L+cGQerFam2dSV8dkwmRXxqFyDcpdDj2faDuv83YF/g9HYX7MGKWjqSOaQGcl0HLMSFkUIzCq+z+g==,
+      }
+    peerDependencies:
+      preact: ">=10"
+      preact-render-to-string: ">=6.4.0"
+    dependencies:
+      preact: 10.26.9
+      preact-render-to-string: 6.5.13(preact@10.26.9)
+    dev: false
+
+  /preact-render-to-string@6.5.13(preact@10.26.9):
+    resolution:
+      {
+        integrity: sha512-iGPd+hKPMFKsfpR2vL4kJ6ZPcFIoWZEcBf0Dpm3zOpdVvj77aY8RlLiQji5OMrngEyaxGogeakTb54uS2FvA6w==,
+      }
+    peerDependencies:
+      preact: ">=10"
+    dependencies:
+      preact: 10.26.9
     dev: false
 
   /preact@10.26.9:
