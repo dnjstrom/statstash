@@ -15,7 +15,7 @@ const NotFound = lazy(() => import("./NotFound.tsx").then((m) => m.NotFound))
 
 export const App = () => {
   return (
-    <LocationProvider>
+    <LocationProvider scope="/statstash">
       <ErrorBoundary>
         <StatsProvider>
           <Router>
