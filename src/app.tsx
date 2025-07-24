@@ -15,12 +15,12 @@ const NotFound = lazy(() => import("./NotFound.tsx").then((m) => m.NotFound))
 
 export const App = () => {
   return (
-    <LocationProvider scope="/statstash">
+    <LocationProvider>
       <ErrorBoundary>
         <StatsProvider>
           <Router>
-            <Route path="/" component={Home} />
-            <Route path="/dnd" component={DNDLayout} />
+            <Route path="/statstash" component={Home} />
+            <Route path="/statstash/dnd" component={DNDLayout} />
             <Route default component={NotFound} />
             <PWABadge />
           </Router>
