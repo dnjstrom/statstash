@@ -14,7 +14,7 @@ export const DNDLayout = () => {
         <Stat value={stats.get("name")}></Stat>
         <Stat value={stats.get("class")}></Stat>
       </div>
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
         <AttributeBox
           name="Strength"
           value={stats.get("attributes.strength")}
