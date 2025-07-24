@@ -44,7 +44,7 @@ jobs:
         uses: actions/configure-pages@v5
 
       - name: Build site
-        run: pnpm build
+        run: pnpm build:gh
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
