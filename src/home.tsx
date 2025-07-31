@@ -1,39 +1,22 @@
+import { useMemo, useState } from "preact/hooks"
 import PWABadge from "./PWABadge.tsx"
 import { useStats } from "./useStats.tsx"
+import { Stat } from "./Stat.tsx"
 
 export const Home = () => {
   const stats = useStats()
+  const [search, setSearch] = useState("")
+
+  const filteredStats = useMemo(() => {
+    if (!search) return stats.entries
+
+    return stats.entries.filter(([key]) => key.includes(search))
+  }, [stats, search])
 
   return (
-    <div className="flex flex-col gap-6">
-      <h1 className="text-2xl">StatStash</h1>
-
-      <hr />
-
-      {stats.entries.map(([key, value]) => (
-        <div className="flex gap-4 justify-center items-center">
-          {key}:
-          <input
-            className="border px-1"
-            onInput={(updated) => {
-              value.value = updated.currentTarget.value
-            }}
-            value={value}
-          />
-          <button
-            className="cursor-pointer"
-            onClick={() => {
-              stats.remove(key)
-            }}
-          >
-            ❌
-          </button>
-        </div>
-      ))}
-
-      <hr />
-
+    <div className="flex flex-col gap-6 px-2">
       <form
+        className="flex gap-1 sticky top-0 bg-[oklch(0.2007_0.0321_232.15)] py-2"
         onSubmit={(event) => {
           event.preventDefault()
           event.stopPropagation()
@@ -44,15 +27,52 @@ export const Home = () => {
           if (!key || typeof key !== "string") return
 
           stats.add(key, "")
+          setSearch("")
 
           event.currentTarget.reset()
         }}
       >
-        <label>
-          New stat: <input className="border px-1" name="key" />
-        </label>
+        <input
+          className="border px-1 w-full"
+          name="key"
+          value={search}
+          onChange={(event) => {
+            setSearch(event.currentTarget.value)
+          }}
+        />
         <button className="cursor-pointer ml-1">Add</button>
       </form>
+
+      <div className="flex flex-col gap-4">
+        {filteredStats.map(([key, value]) => (
+          <div className="flex flex-col gap-1">
+            <div className="flex gap-2 justify-between">
+              <div className="">{key}</div>
+
+              <button
+                className="cursor-pointer col-span-1"
+                onClick={() => {
+                  stats.remove(key)
+                }}
+              >
+                ❌
+              </button>
+            </div>
+
+            <input
+              className="border px-1 w-full col-span-7"
+              onInput={(updated) => {
+                value.value = updated.currentTarget.value
+              }}
+              value={value}
+            />
+
+            <div className="flex text-neutral-400 gap-1">
+              <Stat value={value} />
+            </div>
+          </div>
+        ))}
+      </div>
 
       <PWABadge />
     </div>

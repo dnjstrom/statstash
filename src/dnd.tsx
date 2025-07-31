@@ -1,7 +1,6 @@
-import { resolveStatReferences } from "./resolveStatReferences"
 import { useStats, Value } from "./useStats"
-import { JSX } from "preact"
-import { resolveDiceReferences } from "./resolveDiceReferences"
+import { useExpressionResolver } from "./useExpressionResolver"
+import { Stat } from "./Stat"
 
 export const DNDLayout = () => {
   const stats = useStats()
@@ -91,49 +90,4 @@ const AttributeBox = ({
       </div>
     </button>
   )
-}
-
-const Stat = ({
-  value,
-  sign,
-  ...otherProps
-}: { value: Value; sign?: boolean } & JSX.HTMLAttributes<HTMLDivElement>) => {
-  const resolve = useExpressionResolver()
-
-  const unresolved = value?.value
-  const resolved =
-    typeof unresolved === "string" ? resolve(unresolved) : unresolved
-
-  return <div {...otherProps}>{formatValue(resolved)}</div>
-}
-
-const formatValue = <T,>(value: T): string => {
-  if (value === undefined) return "–"
-
-  return String(value)
-}
-
-const useExpressionResolver = () => {
-  const stats = useStats()
-
-  return (expression: string) => {
-    const resolved = resolveDiceReferences(
-      resolveStatReferences(expression, (name) => {
-        const value = stats.get(name)
-
-        if (!value)
-          throw new Error(`Unable to resolve value for stat {${name}}.`)
-
-        return String(value)
-      })
-    )
-
-    try {
-      // TODO: Write a safer evaluation function
-      const number = eval(resolved)
-      return Math.floor(number)
-    } catch (e) {
-      return resolved
-    }
-  }
 }
