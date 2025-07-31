@@ -26,55 +26,55 @@ export const DNDLayout = () => {
       <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
         <AttributeBox
           name="Strength"
-          value={stats.get("attributes.strength")}
-          modifier={stats.get("attributes.strength.modifier")}
+          value={stats.get("strength")}
+          modifier={stats.get("strength.modifier")}
           onClick={() => {
-            const result = resolve("1d20+{attributes.strength.modifier}")
+            const result = resolve("1d20+{strength.modifier}")
             toaster.info(<Throw title="Strength" {...result} />)
           }}
         />
         <AttributeBox
           name="Dexterity"
-          value={stats.get("attributes.dexterity")}
-          modifier={stats.get("attributes.dexterity.modifier")}
+          value={stats.get("dexterity")}
+          modifier={stats.get("dexterity.modifier")}
           onClick={() => {
-            const result = resolve("1d20+{attributes.dexterity.modifier}")
+            const result = resolve("1d20+{dexterity.modifier}")
             toaster.info(<Throw title="Dexterity" {...result} />)
           }}
         />
         <AttributeBox
           name="Constitution"
-          value={stats.get("attributes.constitution")}
-          modifier={stats.get("attributes.constitution.modifier")}
+          value={stats.get("constitution")}
+          modifier={stats.get("constitution.modifier")}
           onClick={() => {
-            const result = resolve("1d20+{attributes.constitution.modifier}")
+            const result = resolve("1d20+{constitution.modifier}")
             toaster.info(<Throw title="Constitution" {...result} />)
           }}
         />
         <AttributeBox
           name="Intelligence"
-          value={stats.get("attributes.intelligence")}
-          modifier={stats.get("attributes.intelligence.modifier")}
+          value={stats.get("intelligence")}
+          modifier={stats.get("intelligence.modifier")}
           onClick={() => {
-            const result = resolve("1d20+{attributes.intelligence.modifier}")
+            const result = resolve("1d20+{intelligence.modifier}")
             toaster.info(<Throw title="Intelligence" {...result} />)
           }}
         />
         <AttributeBox
           name="Wisdom"
-          value={stats.get("attributes.wisdom")}
-          modifier={stats.get("attributes.wisdom.modifier")}
+          value={stats.get("wisdom")}
+          modifier={stats.get("wisdom.modifier")}
           onClick={() => {
-            const result = resolve("1d20+{attributes.wisdom.modifier}")
+            const result = resolve("1d20+{wisdom.modifier}")
             toaster.info(<Throw title="Wisdom" {...result} />)
           }}
         />
         <AttributeBox
           name="Charisma"
-          value={stats.get("attributes.charisma")}
-          modifier={stats.get("attributes.charisma.modifier")}
+          value={stats.get("charisma")}
+          modifier={stats.get("charisma.modifier")}
           onClick={() => {
-            const result = resolve("1d20+{attributes.charisma.modifier}")
+            const result = resolve("1d20+{charisma.modifier}")
             toaster.info(<Throw title="Strength" {...result} />)
           }}
         />
