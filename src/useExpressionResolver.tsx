@@ -1,28 +1,45 @@
+import { evaluateExpression } from "./evaluateExpression"
 import { resolveDiceReferences } from "./resolveDiceReferences"
 import { resolveStatReferences } from "./resolveStatReferences"
 import { useStats } from "./useStats"
 
+const EXPRESSION_RESOLVER_OPTIONS = {
+  dice: true,
+  stats: true,
+  evaluate: true,
+}
+
+export type ThrowResult = {
+  value: string | number
+  equation: string
+  outcome: string
+}
+
 export const useExpressionResolver = () => {
   const stats = useStats()
 
-  return (expression: string) => {
-    const resolved = resolveDiceReferences(
-      resolveStatReferences(expression, (name) => {
-        const value = stats.get(name)
+  return (
+    expression: string,
+    options?: { dice: boolean; stats: boolean; evaluate: boolean }
+  ): ThrowResult => {
+    const opt = { ...EXPRESSION_RESOLVER_OPTIONS, ...options }
 
-        if (!value)
-          throw new Error(`Unable to resolve value for stat {${name}}.`)
+    const equation = resolveStatReferences(expression, (name) => {
+      const value = stats.get(name)
 
-        return String(value)
-      })
-    )
+      if (!value) throw new Error(`Unable to resolve value for stat {${name}}.`)
 
-    try {
-      // TODO: Write a safer evaluation function
-      const number = eval(resolved)
-      return Math.floor(number)
-    } catch (e) {
-      return resolved
+      return String(value)
+    })
+
+    const outcome = resolveDiceReferences(equation)
+
+    const value = evaluateExpression(outcome)
+
+    return {
+      value,
+      equation,
+      outcome,
     }
   }
 }

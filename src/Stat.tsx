@@ -11,7 +11,7 @@ export const Stat = ({
 
   const unresolved = value?.value
   const resolved =
-    typeof unresolved === "string" ? resolve(unresolved) : unresolved
+    typeof unresolved === "string" ? resolve(unresolved).value : unresolved
 
   return <div {...otherProps}>{formatValue(resolved)}</div>
 }
