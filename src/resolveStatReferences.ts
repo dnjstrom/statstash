@@ -14,7 +14,9 @@ export const resolveStatReferences = (
 
   value = String(evaluateExpression(resolveStatReferences(value, resolver)))
 
-  const resolved = expression.replace(`{${name}}`, String(value))
+  const resolved = expression
+    .replace(`{${name}}`, String(value))
+    .replace(/\+-/gi, "-")
 
-  return resolved.replace(/\+-/gi, "-")
+  return resolveStatReferences(resolved, resolver)
 }
