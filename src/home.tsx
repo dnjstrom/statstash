@@ -3,6 +3,7 @@ import PWABadge from "./PWABadge.tsx"
 import { useStats } from "./useStats.tsx"
 import { Stat } from "./Stat.tsx"
 import { Menu } from "./Menu.tsx"
+import { pathWithBase } from "./pathWithBase.tsx"
 
 export const Home = () => {
   const stats = useStats()
@@ -18,7 +19,7 @@ export const Home = () => {
     <div className="flex flex-col gap-6 px-2">
       <div className="flex items-center gap-2">
         <Menu>
-          <a href="/">DND</a>
+          <a href={pathWithBase("/")}>DND</a>
         </Menu>
 
         <form

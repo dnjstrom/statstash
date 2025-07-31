@@ -10,16 +10,9 @@ import {
 import { Home } from "./home.tsx"
 import { DNDLayout } from "./dnd.tsx"
 import { StatsProvider } from "./useStats.tsx"
+import { pathWithBase } from "./pathWithBase.tsx"
 
 const NotFound = lazy(() => import("./NotFound.tsx").then((m) => m.NotFound))
-
-const pathWithBase = (path: string): string => {
-  if (import.meta.env.PROD) {
-    return `/statstash/${path}`
-  }
-
-  return path
-}
 
 export const App = () => {
   return (
