@@ -7,7 +7,7 @@ import {
   Route,
 } from "preact-iso"
 
-import { Home } from "./home.tsx"
+import { AllStats } from "./AllStats.tsx"
 import { DNDLayout } from "./dnd.tsx"
 import { StatsProvider } from "./useStats.tsx"
 import { pathWithBase } from "./pathWithBase.tsx"
@@ -30,7 +30,7 @@ export const App = () => {
               )}
             />
 
-            <Route path={pathWithBase("/stats")} component={Home} />
+            <Route path={pathWithBase("/stats")} component={AllStats} />
 
             <Route default component={NotFound} />
             <PWABadge />

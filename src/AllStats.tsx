@@ -5,7 +5,7 @@ import { Stat } from "./Stat.tsx"
 import { Menu } from "./Menu.tsx"
 import { pathWithBase } from "./pathWithBase.tsx"
 
-export const Home = () => {
+export const AllStats = () => {
   const stats = useStats()
   const [search, setSearch] = useState("")
 
