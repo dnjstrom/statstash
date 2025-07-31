@@ -1,6 +1,11 @@
 @import "tailwindcss";
 
 html {
+  font-family:
+    Helvetica Neue,
+    Helvetica,
+    Arial,
+    sans-serif;
   background: oklch(0.2007 0.0321 232.15);
   color: white;
 }
