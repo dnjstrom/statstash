@@ -21,6 +21,14 @@ export const Menu = ({ children }: { children: ComponentChildren }) => {
           !open && "hidden"
         )}
       >
+        <div className="text-2xl absolute bottom-4 left-1/2 -translate-x-1/2">
+          StatStash
+        </div>
+
+        <div className="flex flex-col justify-center items-center absolute inset-0">
+          {children}
+        </div>
+
         <div
           className="absolute top-2 right-4 cursor-pointer select-none p-2 -m-2 text-lg"
           onClick={() => {
@@ -29,8 +37,6 @@ export const Menu = ({ children }: { children: ComponentChildren }) => {
         >
           ✕
         </div>
-
-        {children}
       </div>
     </div>
   )

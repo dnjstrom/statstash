@@ -16,14 +16,14 @@ export const AllStats = () => {
   }, [stats, search])
 
   return (
-    <div className="flex flex-col gap-6 px-2">
-      <div className="flex items-center gap-2">
+    <div className="flex flex-col gap-4">
+      <div className="flex items-center gap-2 px-2 sticky top-0 bg-[oklch(0.2007_0.0321_232.15)]">
         <Menu>
           <a href={pathWithBase("/")}>DND</a>
         </Menu>
 
         <form
-          className="flex gap-1 sticky top-0 bg-[oklch(0.2007_0.0321_232.15)] py-2 w-full"
+          className="flex gap-1 py-2 w-full"
           onSubmit={(event) => {
             event.preventDefault()
             event.stopPropagation()
@@ -53,17 +53,17 @@ export const AllStats = () => {
 
       <div className="flex flex-col gap-4">
         {filteredStats.map(([key, value]) => (
-          <div className="flex flex-col gap-1">
-            <div className="flex gap-2 justify-between">
-              <div className="">{key}</div>
+          <div className="flex flex-col gap-1 bg-[oklch(0.2507_0.0321_232.15)] py-2 px-2">
+            <div className="flex gap-2 justify-between items-center">
+              <div className="font-medium">{key}</div>
 
               <button
-                className="cursor-pointer col-span-1"
+                className="cursor-pointer col-span-1 text-lg"
                 onClick={() => {
                   stats.remove(key)
                 }}
               >
-                ❌
+                ✕
               </button>
             </div>
 
@@ -75,7 +75,7 @@ export const AllStats = () => {
               value={value}
             />
 
-            <div className="flex text-neutral-400 gap-1">
+            <div className="flex text-neutral-400 gap-1 text-sm">
               <Stat value={value} />
             </div>
           </div>
