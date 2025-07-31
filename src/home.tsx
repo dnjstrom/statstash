@@ -2,6 +2,7 @@ import { useMemo, useState } from "preact/hooks"
 import PWABadge from "./PWABadge.tsx"
 import { useStats } from "./useStats.tsx"
 import { Stat } from "./Stat.tsx"
+import { Menu } from "./Menu.tsx"
 
 export const Home = () => {
   const stats = useStats()
@@ -15,33 +16,39 @@ export const Home = () => {
 
   return (
     <div className="flex flex-col gap-6 px-2">
-      <form
-        className="flex gap-1 sticky top-0 bg-[oklch(0.2007_0.0321_232.15)] py-2"
-        onSubmit={(event) => {
-          event.preventDefault()
-          event.stopPropagation()
-          const formData = new FormData(event.currentTarget)
+      <div className="flex items-center gap-2">
+        <Menu>
+          <a href="/">DND</a>
+        </Menu>
 
-          const key = formData.get("key")
+        <form
+          className="flex gap-1 sticky top-0 bg-[oklch(0.2007_0.0321_232.15)] py-2 w-full"
+          onSubmit={(event) => {
+            event.preventDefault()
+            event.stopPropagation()
+            const formData = new FormData(event.currentTarget)
 
-          if (!key || typeof key !== "string") return
+            const key = formData.get("key")
 
-          stats.add(key, "")
-          setSearch("")
+            if (!key || typeof key !== "string") return
 
-          event.currentTarget.reset()
-        }}
-      >
-        <input
-          className="border px-1 w-full"
-          name="key"
-          value={search}
-          onChange={(event) => {
-            setSearch(event.currentTarget.value)
+            stats.add(key, "")
+            setSearch("")
+
+            event.currentTarget.reset()
           }}
-        />
-        <button className="cursor-pointer ml-1">Add</button>
-      </form>
+        >
+          <input
+            className="border px-1 w-full"
+            name="key"
+            value={search}
+            onChange={(event) => {
+              setSearch(event.currentTarget.value)
+            }}
+          />
+          <button className="cursor-pointer ml-1">Add</button>
+        </form>
+      </div>
 
       <div className="flex flex-col gap-4">
         {filteredStats.map(([key, value]) => (

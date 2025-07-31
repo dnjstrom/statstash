@@ -1,6 +1,7 @@
 import { useStats, Value } from "./useStats"
 import { useExpressionResolver } from "./useExpressionResolver"
 import { Stat } from "./Stat"
+import { Menu } from "./Menu"
 
 export const DNDLayout = () => {
   const stats = useStats()
@@ -9,9 +10,14 @@ export const DNDLayout = () => {
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex gap-2 items-center p-2 justify-between bg-[oklch(0.2507_0.0321_232.15)]">
+      <div className="flex gap-2 items-center p-2 bg-[oklch(0.2507_0.0321_232.15)]">
+        <Menu>
+          <a href="/stats">Stats</a>
+        </Menu>
         <Stat value={stats.get("name")}></Stat>
-        <Stat value={stats.get("class")}></Stat>
+        <div className="ml-auto">
+          <Stat value={stats.get("class")}></Stat>
+        </div>
       </div>
       <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
         <AttributeBox
