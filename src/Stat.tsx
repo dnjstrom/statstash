@@ -4,9 +4,8 @@ import { useExpressionResolver } from "./useExpressionResolver"
 
 export const Stat = ({
   value,
-  sign,
   ...otherProps
-}: { value: Value; sign?: boolean } & JSX.HTMLAttributes<HTMLDivElement>) => {
+}: { value: Value } & JSX.HTMLAttributes<HTMLDivElement>) => {
   const resolve = useExpressionResolver()
 
   const unresolved = value?.value
