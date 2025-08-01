@@ -4,7 +4,6 @@ import { Stat } from "./Stat"
 import { Menu } from "./Menu"
 import { pathWithBase } from "./pathWithBase"
 import { useToast } from "./Toast"
-import { Children } from "preact/compat"
 import { ComponentChildren } from "preact"
 
 export const DNDLayout = () => {
