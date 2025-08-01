@@ -44,7 +44,7 @@ export const AllStats = () => {
             name="key"
             value={search}
             onChange={(event) => {
-              setSearch(event.currentTarget.value)
+              setSearch(event.currentTarget.value.toLocaleLowerCase())
             }}
           />
           <button className="cursor-pointer ml-1">Add</button>
