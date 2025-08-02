@@ -71,7 +71,7 @@ const Toast = ({
   return (
     <div
       ref={ref}
-      className="fixed top-4 left-4 right-4 rounded-lg p-4 bg-[oklch(0.2507_0.0321_232.15)] text-3xl shadow-lg shadow-black border-2 border-white opacity-100 transition-opacity duration-1000 ease-in"
+      className="fixed top-4 left-4 right-4 rounded-lg p-4 bg-[oklch(0.2507_0.0321_232.15)] text-3xl shadow-lg shadow-black border-2 border-white opacity-100 transition-opacity duration-1000 ease-in z-10"
     >
       <div
         className="absolute -top-1 -right-1 flex justify-center items-center cursor-pointer select-none w-8 h-8 -m-2 text-lg rounded-full bg-[oklch(0.2507_0.0321_232.15)] border-2 border-white"

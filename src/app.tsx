@@ -47,7 +47,7 @@ export const App = () => {
 }
 
 const DndRoutes = () => (
-  <div className="pb-16">
+  <div className="pb-20 pt-12">
     <ErrorBoundary>
       <ToastProvider>
         <Router>
@@ -70,7 +70,7 @@ const DndRoutes = () => (
 
 const NavBar = () => {
   return (
-    <div className="fixed bottom-0 left-0 right-0 p-2 bg-[oklch(0.2007_0.0321_232.15)] flex gap-1 overflow-x-auto">
+    <div className="fixed bottom-0 left-0 right-0 p-2 pb-4 bg-[oklch(0.2007_0.0321_232.15)] flex gap-1 overflow-x-auto">
       <NavBarItem href={pathWithBase("/dice")}>Dice</NavBarItem>
       <NavBarItem href={pathWithBase("/")}>Skills</NavBarItem>
       <NavBarItem href={pathWithBase("/combat")}>Combat</NavBarItem>
