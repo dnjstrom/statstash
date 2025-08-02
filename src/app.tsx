@@ -51,12 +51,12 @@ const DndRoutes = () => (
     <ErrorBoundary>
       <ToastProvider>
         <Router>
-          <Route path={pathWithBase("/")} component={Skills} />
-          <Route path={pathWithBase("/dice")} component={Dice} />
-          <Route path={pathWithBase("/combat")} component={Combat} />
-          <Route path={pathWithBase("/spells")} component={Spells} />
-          <Route path={pathWithBase("/gear")} component={Gear} />
-          <Route path={pathWithBase("/notes")} component={Notes} />
+          <Route path={"/"} component={Skills} />
+          <Route path={"/dice"} component={Dice} />
+          <Route path={"/combat"} component={Combat} />
+          <Route path={"/spells"} component={Spells} />
+          <Route path={"/gear"} component={Gear} />
+          <Route path={"/notes"} component={Notes} />
 
           <Route default component={NotFound} />
           <PWABadge />
