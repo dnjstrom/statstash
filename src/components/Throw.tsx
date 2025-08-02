@@ -1,4 +1,4 @@
-import { ThrowResult } from "./useExpressionResolver"
+import { ThrowResult } from "../utils/useExpressionResolver"
 
 export const Throw = ({
   pretitle,

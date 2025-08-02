@@ -1,5 +1,5 @@
+import { Value } from "../data/useStats"
 import { Stat } from "./Stat"
-import { Value } from "./useStats"
 
 export const SkillBox = ({
   name,
