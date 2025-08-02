@@ -1,10 +1,13 @@
-import { useStats, Value } from "./useStats"
-import { ThrowResult, useExpressionResolver } from "./useExpressionResolver"
+import { useStats } from "./useStats"
+import { useExpressionResolver } from "./useExpressionResolver"
 import { Stat } from "./Stat"
 import { Menu } from "./Menu"
 import { pathWithBase } from "./pathWithBase"
 import { useToast } from "./Toast"
-import { ComponentChildren } from "preact"
+import { AttributeBox } from "./AttributeBox"
+import { SkillBox } from "./SkillBox"
+import { Section } from "./Section"
+import { Throw } from "./Throw"
 
 export const DNDLayout = () => {
   const stats = useStats()
@@ -390,100 +393,6 @@ export const DNDLayout = () => {
           />
         </div>
       </Section>
-    </div>
-  )
-}
-
-const Throw = ({
-  pretitle,
-  title,
-  value,
-  equation,
-  outcome,
-}: ThrowResult & { title: string; pretitle?: string }) => (
-  <div className="flex gap-2 justify-between items-center">
-    <div className="flex flex-col">
-      <div className="text-sm font-medium text-slate-400 -mb-0.5">
-        {pretitle}
-      </div>
-      <div className="text-2xl font-black leading-7">{title}</div>
-      <div className="flex gap-0 text-sm">
-        {equation}
-        <span className="text-slate-400">=</span>
-        {outcome}
-        <span className="text-slate-400">=</span>
-        {value}
-      </div>
-    </div>
-
-    <div className="text-6xl font-black">{value}</div>
-  </div>
-)
-
-const AttributeBox = ({
-  name,
-  value,
-  modifier,
-  onClick,
-}: {
-  name: string
-  value: Value
-  modifier: Value
-  onClick: () => void
-}) => {
-  return (
-    <button
-      className="flex flex-col justify-center items-center p-2 bg-[oklch(0.2507_0.0321_232.15)] cursor-pointer hover:bg-[oklch(0.2707_0.0321_232.15)] active:bg-[oklch(0.2307_0.0321_232.15)]"
-      onClick={onClick}
-    >
-      <Stat value={modifier} className="text-3xl" />
-      <div className="flex gap-2 items-baseline">
-        {name}
-        <Stat value={value} />
-      </div>
-    </button>
-  )
-}
-
-const SkillBox = ({
-  name,
-  modifier,
-  proficient,
-  onClick,
-}: {
-  name: string
-  modifier: Value
-  proficient: boolean
-  onClick: () => void
-}) => {
-  return (
-    <button
-      className="flex gap-2 items-baseline px-4 py-2 bg-[oklch(0.2507_0.0321_232.15)] cursor-pointer hover:bg-[oklch(0.2707_0.0321_232.15)] active:bg-[oklch(0.2307_0.0321_232.15)]"
-      onClick={onClick}
-    >
-      <div className="flex justify-center items-center text-xl w-2 h-2">
-        {proficient ? <span className="text-cyan-600">●</span> : "○"}
-      </div>
-      {name}
-      <div className="ml-auto">
-        <Stat value={modifier} />
-      </div>
-    </button>
-  )
-}
-
-const Section = ({
-  title,
-  children,
-}: {
-  title: string
-  children: ComponentChildren
-}) => {
-  return (
-    <div>
-      <div className="text-sm font-medium ml-2">{title}</div>
-
-      {children}
     </div>
   )
 }
