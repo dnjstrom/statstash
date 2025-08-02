@@ -90,7 +90,7 @@ const NavBarItem = ({
     <a
       href={href}
       {...otherProps}
-      className="bg-[oklch(0.2507_0.0321_232.15)] p-2 rounded-lg cursor-pointer"
+      className="bg-[oklch(0.2507_0.0321_232.15)] p-2 rounded-lg cursor-pointer text-lg"
     >
       {children}
     </a>
