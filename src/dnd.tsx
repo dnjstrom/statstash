@@ -33,7 +33,9 @@ export const DNDLayout = () => {
             modifier={stats.get("strength")}
             onClick={() => {
               const result = resolve("1d20+{strength}")
-              toaster.info(<Throw title="Strength" {...result} />)
+              toaster.info(
+                <Throw pretitle="Attribute" title="Strength" {...result} />
+              )
             }}
           />
           <AttributeBox
@@ -42,7 +44,9 @@ export const DNDLayout = () => {
             modifier={stats.get("dexterity")}
             onClick={() => {
               const result = resolve("1d20+{dexterity}")
-              toaster.info(<Throw title="Dexterity" {...result} />)
+              toaster.info(
+                <Throw pretitle="Attribute" title="Dexterity" {...result} />
+              )
             }}
           />
           <AttributeBox
@@ -51,7 +55,9 @@ export const DNDLayout = () => {
             modifier={stats.get("constitution")}
             onClick={() => {
               const result = resolve("1d20+{constitution}")
-              toaster.info(<Throw title="Constitution" {...result} />)
+              toaster.info(
+                <Throw pretitle="Attribute" title="Constitution" {...result} />
+              )
             }}
           />
           <AttributeBox
@@ -60,7 +66,9 @@ export const DNDLayout = () => {
             modifier={stats.get("intelligence")}
             onClick={() => {
               const result = resolve("1d20+{intelligence}")
-              toaster.info(<Throw title="Intelligence" {...result} />)
+              toaster.info(
+                <Throw pretitle="Attribute" title="Intelligence" {...result} />
+              )
             }}
           />
           <AttributeBox
@@ -69,7 +77,9 @@ export const DNDLayout = () => {
             modifier={stats.get("wisdom")}
             onClick={() => {
               const result = resolve("1d20+{wisdom}")
-              toaster.info(<Throw title="Wisdom" {...result} />)
+              toaster.info(
+                <Throw pretitle="Attribute" title="Wisdom" {...result} />
+              )
             }}
           />
           <AttributeBox
@@ -78,7 +88,9 @@ export const DNDLayout = () => {
             modifier={stats.get("charisma")}
             onClick={() => {
               const result = resolve("1d20+{charisma}")
-              toaster.info(<Throw title="Strength" {...result} />)
+              toaster.info(
+                <Throw pretitle="Attribute" title="Strength" {...result} />
+              )
             }}
           />
         </div>
@@ -94,7 +106,9 @@ export const DNDLayout = () => {
             }
             onClick={() => {
               const result = resolve("1d20+{strength.saving_throw}")
-              toaster.info(<Throw title="Strength Saving Throw" {...result} />)
+              toaster.info(
+                <Throw pretitle="Saving Throw" title="Strength" {...result} />
+              )
             }}
           />
           <SkillBox
@@ -105,7 +119,9 @@ export const DNDLayout = () => {
             }
             onClick={() => {
               const result = resolve("1d20+{dexterity.saving_throw}")
-              toaster.info(<Throw title="Dexterity Saving Throw" {...result} />)
+              toaster.info(
+                <Throw pretitle="Saving Throw" title="Dexterity" {...result} />
+              )
             }}
           />
           <SkillBox
@@ -117,7 +133,11 @@ export const DNDLayout = () => {
             onClick={() => {
               const result = resolve("1d20+{constitution.saving_throw}")
               toaster.info(
-                <Throw title="Constitution Saving Throw" {...result} />
+                <Throw
+                  pretitle="Saving Throw"
+                  title="Constitution"
+                  {...result}
+                />
               )
             }}
           />
@@ -130,7 +150,11 @@ export const DNDLayout = () => {
             onClick={() => {
               const result = resolve("1d20+{intelligence.saving_throw}")
               toaster.info(
-                <Throw title="Intelligence Saving Throw" {...result} />
+                <Throw
+                  pretitle="Saving Throw"
+                  title="Intelligence"
+                  {...result}
+                />
               )
             }}
           />
@@ -142,7 +166,9 @@ export const DNDLayout = () => {
             }
             onClick={() => {
               const result = resolve("1d20+{wisdom.saving_throw}")
-              toaster.info(<Throw title="Wisdom Saving Throw" {...result} />)
+              toaster.info(
+                <Throw pretitle="Saving Throw" title="Wisdom" {...result} />
+              )
             }}
           />
           <SkillBox
@@ -153,7 +179,9 @@ export const DNDLayout = () => {
             }
             onClick={() => {
               const result = resolve("1d20+{charisma.saving_throw}")
-              toaster.info(<Throw title="Charisma Saving Throw" {...result} />)
+              toaster.info(
+                <Throw pretitle="Saving Throw" title="Charisma" {...result} />
+              )
             }}
           />
         </div>
@@ -167,7 +195,9 @@ export const DNDLayout = () => {
             proficient={stats.get("acrobatics.proficient")?.value === "1"}
             onClick={() => {
               const result = resolve("1d20+{acrobatics}")
-              toaster.info(<Throw title="Acrobatics" {...result} />)
+              toaster.info(
+                <Throw pretitle="Skill" title="Acrobatics" {...result} />
+              )
             }}
           />
           <SkillBox
@@ -176,7 +206,9 @@ export const DNDLayout = () => {
             proficient={stats.get("animal_handling.proficient")?.value === "1"}
             onClick={() => {
               const result = resolve("1d20+{animal_handling}")
-              toaster.info(<Throw title="Animal Handling" {...result} />)
+              toaster.info(
+                <Throw pretitle="Skill" title="Animal Handling" {...result} />
+              )
             }}
           />
           <SkillBox
@@ -186,7 +218,9 @@ export const DNDLayout = () => {
             onClick={() => {
               console.log("ASDF", stats.get("arcana.proficient")?.value)
               const result = resolve("1d20+{arcana}")
-              toaster.info(<Throw title="Arcana" {...result} />)
+              toaster.info(
+                <Throw pretitle="Skill" title="Arcana" {...result} />
+              )
             }}
           />
           <SkillBox
@@ -195,7 +229,9 @@ export const DNDLayout = () => {
             proficient={stats.get("athletics.proficient")?.value === "1"}
             onClick={() => {
               const result = resolve("1d20+{athletics}")
-              toaster.info(<Throw title="Athletics" {...result} />)
+              toaster.info(
+                <Throw pretitle="Skill" title="Athletics" {...result} />
+              )
             }}
           />
           <SkillBox
@@ -204,7 +240,9 @@ export const DNDLayout = () => {
             proficient={stats.get("deception.proficient")?.value === "1"}
             onClick={() => {
               const result = resolve("1d20+{deception}")
-              toaster.info(<Throw title="Deception" {...result} />)
+              toaster.info(
+                <Throw pretitle="Skill" title="Deception" {...result} />
+              )
             }}
           />
           <SkillBox
@@ -213,7 +251,9 @@ export const DNDLayout = () => {
             proficient={stats.get("history.proficient")?.value === "1"}
             onClick={() => {
               const result = resolve("1d20+{history}")
-              toaster.info(<Throw title="History" {...result} />)
+              toaster.info(
+                <Throw pretitle="Skill" title="History" {...result} />
+              )
             }}
           />
           <SkillBox
@@ -222,7 +262,9 @@ export const DNDLayout = () => {
             proficient={stats.get("insight.proficient")?.value === "1"}
             onClick={() => {
               const result = resolve("1d20+{insight}")
-              toaster.info(<Throw title="Insight" {...result} />)
+              toaster.info(
+                <Throw pretitle="Skill" title="Insight" {...result} />
+              )
             }}
           />
           <SkillBox
@@ -231,7 +273,9 @@ export const DNDLayout = () => {
             proficient={stats.get("intimidation.proficient")?.value === "1"}
             onClick={() => {
               const result = resolve("1d20+{intimidation}")
-              toaster.info(<Throw title="Intimidation" {...result} />)
+              toaster.info(
+                <Throw pretitle="Skill" title="Intimidation" {...result} />
+              )
             }}
           />
           <SkillBox
@@ -240,7 +284,9 @@ export const DNDLayout = () => {
             proficient={stats.get("investigation.proficient")?.value === "1"}
             onClick={() => {
               const result = resolve("1d20+{investigation}")
-              toaster.info(<Throw title="Investigation" {...result} />)
+              toaster.info(
+                <Throw pretitle="Skill" title="Investigation" {...result} />
+              )
             }}
           />
           <SkillBox
@@ -249,7 +295,9 @@ export const DNDLayout = () => {
             proficient={stats.get("medicine.proficient")?.value === "1"}
             onClick={() => {
               const result = resolve("1d20+{medicine}")
-              toaster.info(<Throw title="Medicine" {...result} />)
+              toaster.info(
+                <Throw pretitle="Skill" title="Medicine" {...result} />
+              )
             }}
           />
           <SkillBox
@@ -258,7 +306,9 @@ export const DNDLayout = () => {
             proficient={stats.get("nature.proficient")?.value === "1"}
             onClick={() => {
               const result = resolve("1d20+{nature}")
-              toaster.info(<Throw title="Nature" {...result} />)
+              toaster.info(
+                <Throw pretitle="Skill" title="Nature" {...result} />
+              )
             }}
           />
           <SkillBox
@@ -267,7 +317,9 @@ export const DNDLayout = () => {
             proficient={stats.get("perception.proficient")?.value === "1"}
             onClick={() => {
               const result = resolve("1d20+{perception}")
-              toaster.info(<Throw title="Perception" {...result} />)
+              toaster.info(
+                <Throw pretitle="Skill" title="Perception" {...result} />
+              )
             }}
           />
           <SkillBox
@@ -276,7 +328,9 @@ export const DNDLayout = () => {
             proficient={stats.get("performance.proficient")?.value === "1"}
             onClick={() => {
               const result = resolve("1d20+{performance}")
-              toaster.info(<Throw title="Performance" {...result} />)
+              toaster.info(
+                <Throw pretitle="Skill" title="Performance" {...result} />
+              )
             }}
           />
           <SkillBox
@@ -285,7 +339,9 @@ export const DNDLayout = () => {
             proficient={stats.get("persuasion.proficient")?.value === "1"}
             onClick={() => {
               const result = resolve("1d20+{persuasion}")
-              toaster.info(<Throw title="Persuasion" {...result} />)
+              toaster.info(
+                <Throw pretitle="Skill" title="Persuasion" {...result} />
+              )
             }}
           />
           <SkillBox
@@ -294,7 +350,9 @@ export const DNDLayout = () => {
             proficient={stats.get("religion.proficient")?.value === "1"}
             onClick={() => {
               const result = resolve("1d20+{religion}")
-              toaster.info(<Throw title="Religion" {...result} />)
+              toaster.info(
+                <Throw pretitle="Skill" title="Religion" {...result} />
+              )
             }}
           />
           <SkillBox
@@ -303,7 +361,9 @@ export const DNDLayout = () => {
             proficient={stats.get("sleight_of_hand.proficient")?.value === "1"}
             onClick={() => {
               const result = resolve("1d20+{sleight_of_hand}")
-              toaster.info(<Throw title="Sleight of Hand" {...result} />)
+              toaster.info(
+                <Throw pretitle="Skill" title="Sleight of Hand" {...result} />
+              )
             }}
           />
           <SkillBox
@@ -312,7 +372,9 @@ export const DNDLayout = () => {
             proficient={stats.get("stealth.proficient")?.value === "1"}
             onClick={() => {
               const result = resolve("1d20+{stealth}")
-              toaster.info(<Throw title="Stealth" {...result} />)
+              toaster.info(
+                <Throw pretitle="Skill" title="Stealth" {...result} />
+              )
             }}
           />
           <SkillBox
@@ -321,7 +383,9 @@ export const DNDLayout = () => {
             proficient={stats.get("survival.proficient")?.value === "1"}
             onClick={() => {
               const result = resolve("1d20+{survival}")
-              toaster.info(<Throw title="Survival" {...result} />)
+              toaster.info(
+                <Throw pretitle="Skill" title="Survival" {...result} />
+              )
             }}
           />
         </div>
@@ -331,20 +395,28 @@ export const DNDLayout = () => {
 }
 
 const Throw = ({
+  pretitle,
   title,
   value,
   equation,
   outcome,
-}: ThrowResult & { title: string }) => (
+}: ThrowResult & { title: string; pretitle?: string }) => (
   <div className="flex gap-2 justify-between items-center">
     <div className="flex flex-col">
-      <div className="text-lg font-medium">{title}</div>
-      <div className="flex gap-1 text-sm text-slate-400">
-        {equation}={outcome}={value}
+      <div className="text-sm font-medium text-slate-400 -mb-0.5">
+        {pretitle}
+      </div>
+      <div className="text-2xl font-black leading-7">{title}</div>
+      <div className="flex gap-0 text-sm">
+        {equation}
+        <span className="text-slate-400">=</span>
+        {outcome}
+        <span className="text-slate-400">=</span>
+        {value}
       </div>
     </div>
 
-    <div className="text-4xl">{value}</div>
+    <div className="text-6xl font-black">{value}</div>
   </div>
 )
 
