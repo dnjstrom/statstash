@@ -1,5 +1,5 @@
 import { Stat } from "./Stat"
-import { Value } from "./useStats"
+import { Value } from "../data/useStats"
 
 export const AttributeBox = ({
   name,
@@ -14,7 +14,7 @@ export const AttributeBox = ({
 }) => {
   return (
     <button
-      className="flex flex-col justify-center items-center p-2 bg-[oklch(0.2507_0.0321_232.15)] cursor-pointer hover:bg-[oklch(0.2707_0.0321_232.15)] active:bg-[oklch(0.2307_0.0321_232.15)]"
+      className="flex flex-col justify-center items-center p-2 bg-[oklch(0.2507_0.0321_232.15)] cursor-pointer hover:bg-[oklch(0.2707_0.0321_232.15)] active:bg-[oklch(0.2307_0.0321_232.15)] rounded-lg"
       onClick={onClick}
     >
       <Stat value={modifier} className="text-3xl" />

@@ -1,10 +1,10 @@
 import { useMemo, useState } from "preact/hooks"
-import PWABadge from "./PWABadge.tsx"
-import { useStats } from "./useStats.tsx"
-import { Stat } from "./Stat.tsx"
-import { Menu } from "./Menu.tsx"
-import { pathWithBase } from "./pathWithBase.tsx"
-import { local } from "./db.ts"
+import PWABadge from "../PWABadge.tsx"
+import { useStats } from "../data/useStats.tsx"
+import { Stat } from "../components/Stat.tsx"
+import { Menu } from "../components/Menu.tsx"
+import { pathWithBase } from "../utils/pathWithBase.tsx"
+import { local } from "../data/db.ts"
 
 export const AllStats = () => {
   const stats = useStats()
@@ -20,7 +20,9 @@ export const AllStats = () => {
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-2 px-2 sticky top-0 bg-[oklch(0.2007_0.0321_232.15)]">
         <Menu>
-          <a href={pathWithBase("/")}>DND</a>
+          <a className="text-xl" href={pathWithBase("/")}>
+            DND
+          </a>
         </Menu>
 
         <form

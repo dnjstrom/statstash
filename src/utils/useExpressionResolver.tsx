@@ -1,7 +1,7 @@
 import { evaluateExpression } from "./evaluateExpression"
 import { resolveDiceReferences } from "./resolveDiceReferences"
 import { resolveStatReferences } from "./resolveStatReferences"
-import { useStats } from "./useStats"
+import { useStats } from "../data/useStats"
 
 export type ThrowResult = {
   value: string | number

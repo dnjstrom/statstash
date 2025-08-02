@@ -1,12 +1,12 @@
 import { useState } from "preact/hooks"
-import { cn } from "./cn"
+import { cn } from "../utils/cn"
 import { ComponentChildren } from "preact"
 
 export const Menu = ({ children }: { children: ComponentChildren }) => {
   const [open, setOpen] = useState(false)
 
   return (
-    <div className="">
+    <div className="z-50">
       <div
         className="text-xl cursor-pointer flex items-center justify-center -m-2 -mt-3 p-2 select-none"
         onClick={() => {
@@ -21,7 +21,7 @@ export const Menu = ({ children }: { children: ComponentChildren }) => {
           !open && "hidden"
         )}
       >
-        <div className="text-2xl absolute bottom-4 left-1/2 -translate-x-1/2">
+        <div className="text-4xl absolute bottom-8 left-1/2 -translate-x-1/2">
           StatStash
         </div>
 

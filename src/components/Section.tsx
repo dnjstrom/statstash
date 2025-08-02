@@ -9,7 +9,7 @@ export const Section = ({
 }) => {
   return (
     <div>
-      <div className="text-sm font-medium ml-2">{title}</div>
+      <div className="text-sm font-medium ml-2 pt-1">{title}</div>
 
       {children}
     </div>

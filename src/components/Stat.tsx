@@ -1,6 +1,6 @@
-import { Value } from "./useStats"
+import { Value } from "../data/useStats"
 import { JSX } from "preact"
-import { useExpressionResolver } from "./useExpressionResolver"
+import { useExpressionResolver } from "../utils/useExpressionResolver"
 
 export const Stat = ({
   value,

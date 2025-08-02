@@ -7,36 +7,92 @@ import {
   Route,
 } from "preact-iso"
 
-import { AllStats } from "./AllStats.tsx"
-import { DNDLayout } from "./dnd.tsx"
-import { StatsProvider } from "./useStats.tsx"
-import { pathWithBase } from "./pathWithBase.tsx"
-import { ToastProvider } from "./Toast.tsx"
+import { AllStats } from "./pages/AllStats.tsx"
+import { Skills } from "./pages/Skills.tsx"
+import { StatsProvider } from "./data/useStats.tsx"
+import { pathWithBase } from "./utils/pathWithBase.tsx"
+import { ToastProvider } from "./components/Toast.tsx"
+import type { JSX } from "preact"
+import { Dice } from "./pages/Dice.tsx"
+import { Combat } from "./pages/Combat.tsx"
+import { Spells } from "./pages/Spells.tsx"
+import { Gear } from "./pages/Gear.tsx"
+import { Notes } from "./pages/Notes.tsx"
 
-const NotFound = lazy(() => import("./NotFound.tsx").then((m) => m.NotFound))
+const NotFound = lazy(() =>
+  import("./pages/NotFound.tsx").then((m) => m.NotFound)
+)
 
 export const App = () => {
   return (
-    <LocationProvider>
-      <ErrorBoundary>
-        <StatsProvider>
-          <Router>
-            <Route
-              path={pathWithBase("/")}
-              component={() => (
-                <ToastProvider>
-                  <DNDLayout />
-                </ToastProvider>
-              )}
-            />
+    <div className="relative min-w-lvw min-h-lvh">
+      <LocationProvider>
+        <ErrorBoundary>
+          <StatsProvider>
+            <ToastProvider>
+              <Router>
+                <Route path={pathWithBase("/stats")} component={AllStats} />
 
-            <Route path={pathWithBase("/stats")} component={AllStats} />
+                <Route path={pathWithBase("/")} component={DndRoutes} />
+                <Route path={pathWithBase("/*")} component={DndRoutes} />
 
-            <Route default component={NotFound} />
-            <PWABadge />
-          </Router>
-        </StatsProvider>
-      </ErrorBoundary>
-    </LocationProvider>
+                <PWABadge />
+              </Router>
+            </ToastProvider>
+          </StatsProvider>
+        </ErrorBoundary>
+      </LocationProvider>
+    </div>
+  )
+}
+
+const DndRoutes = () => (
+  <div className="pb-16">
+    <ErrorBoundary>
+      <ToastProvider>
+        <Router>
+          <Route path={pathWithBase("/")} component={Skills} />
+          <Route path={pathWithBase("/dice")} component={Dice} />
+          <Route path={pathWithBase("/combat")} component={Combat} />
+          <Route path={pathWithBase("/spells")} component={Spells} />
+          <Route path={pathWithBase("/gear")} component={Gear} />
+          <Route path={pathWithBase("/notes")} component={Notes} />
+
+          <Route default component={NotFound} />
+          <PWABadge />
+        </Router>
+
+        <NavBar />
+      </ToastProvider>
+    </ErrorBoundary>
+  </div>
+)
+
+const NavBar = () => {
+  return (
+    <div className="fixed bottom-0 left-0 right-0 p-2 bg-[oklch(0.2007_0.0321_232.15)] flex gap-1 overflow-x-auto">
+      <NavBarItem href={pathWithBase("/dice")}>Dice</NavBarItem>
+      <NavBarItem href={pathWithBase("/")}>Skills</NavBarItem>
+      <NavBarItem href={pathWithBase("/combat")}>Combat</NavBarItem>
+      <NavBarItem href={pathWithBase("/spells")}>Spells</NavBarItem>
+      <NavBarItem href={pathWithBase("/gear")}>Gear</NavBarItem>
+      <NavBarItem href={pathWithBase("/notes")}>Notes</NavBarItem>
+    </div>
+  )
+}
+
+const NavBarItem = ({
+  children,
+  href,
+  ...otherProps
+}: { href: string } & JSX.HTMLAttributes<HTMLAnchorElement>) => {
+  return (
+    <a
+      href={href}
+      {...otherProps}
+      className="bg-[oklch(0.2507_0.0321_232.15)] p-2 rounded-lg cursor-pointer"
+    >
+      {children}
+    </a>
   )
 }
