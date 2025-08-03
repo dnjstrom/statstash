@@ -7,7 +7,7 @@ export const Header = () => {
   const stats = useStats()
 
   return (
-    <div className="fixed top-0 left-0 right-0 flex gap-2 items-center p-2 bg-[oklch(0.2507_0.0321_232.15)] border-b-4 border-b-[oklch(0.2007_0.0321_232.15)]">
+    <div className="w-full flex gap-2 items-center p-2 bg-[oklch(0.2507_0.0321_232.15)] border-b-4 border-b-[oklch(0.2007_0.0321_232.15)]">
       <Menu>
         <a className="text-xl" href={pathWithBase("/stats")}>
           Stats

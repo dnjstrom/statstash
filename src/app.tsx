@@ -18,6 +18,7 @@ import { Combat } from "./pages/Combat.tsx"
 import { Spells } from "./pages/Spells.tsx"
 import { Gear } from "./pages/Gear.tsx"
 import { Notes } from "./pages/Notes.tsx"
+import { Header } from "./pages/Header.tsx"
 
 const NotFound = lazy(() =>
   import("./pages/NotFound.tsx").then((m) => m.NotFound)
@@ -25,7 +26,7 @@ const NotFound = lazy(() =>
 
 export const App = () => {
   return (
-    <div className="relative min-w-lvw min-h-lvh">
+    <div className="fixed inset-0 flex flex-col">
       <LocationProvider>
         <ErrorBoundary>
           <StatsProvider>
@@ -47,9 +48,10 @@ export const App = () => {
 }
 
 const DndRoutes = () => (
-  <div className="pb-20 pt-12">
-    <ErrorBoundary>
-      <ToastProvider>
+  <ErrorBoundary>
+    <ToastProvider>
+      <Header />
+      <div className="h-full overflow-auto pb-2">
         <Router>
           <Route path={"/"} component={Skills} />
           <Route path={"/dice"} component={Dice} />
@@ -61,23 +63,16 @@ const DndRoutes = () => (
           <Route default component={NotFound} />
           <PWABadge />
         </Router>
+      </div>
 
-        <NavBar />
-      </ToastProvider>
-    </ErrorBoundary>
-  </div>
+      <NavBar />
+    </ToastProvider>
+  </ErrorBoundary>
 )
 
 const NavBar = () => {
   return (
-    <div
-      className="fixed p-2 bg-[oklch(0.2007_0.0321_232.15)] flex gap-1 overflow-x-auto"
-      style={{
-        bottom: "env(safe-area-inset-bottom)",
-        left: "env(safe-area-inset-left)",
-        right: "env(safe-area-inset-right)",
-      }}
-    >
+    <div className="p-2 pt-1 pb-0 bg-[oklch(0.2007_0.0321_232.15)] flex gap-1 overflow-x-auto">
       <NavBarItem href={pathWithBase("/dice")}>Dice</NavBarItem>
       <NavBarItem href={pathWithBase("/")}>Skills</NavBarItem>
       <NavBarItem href={pathWithBase("/combat")}>Combat</NavBarItem>
@@ -97,7 +92,7 @@ const NavBarItem = ({
     <a
       href={href}
       {...otherProps}
-      className="bg-[oklch(0.2507_0.0321_232.15)] p-2 rounded-lg cursor-pointer text-lg"
+      className="bg-[oklch(0.2507_0.0321_232.15)] p-2 rounded-lg cursor-pointer text-lg flex items-center"
     >
       {children}
     </a>
