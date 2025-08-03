@@ -9,3 +9,11 @@ html {
   background: oklch(0.2007 0.0321 232.15);
   color: white;
 }
+
+body {
+  /* 
+   * Ensure pulling down doesn't trigger browser refresh.
+   * See: https://stackoverflow.com/a/69589919
+   */
+  overflow: hidden;
+}
