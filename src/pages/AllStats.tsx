@@ -230,8 +230,10 @@ const ResetStatsButton = () => {
       ["initiative", "{dexterity}"],
       ["hit_points.max", "20"],
       ["hit_points.temporary", "0"],
-      ["hit_points.current", "20"],
+      ["hit_points", "20"],
       ["armor_class", "11"],
+      ["death_saves.successes", "0"],
+      ["death_saves.failures", "0"],
     ]
 
     await local.bulkDocs(

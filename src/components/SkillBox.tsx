@@ -1,4 +1,5 @@
 import { Value } from "../data/useStats"
+import { Dot } from "./Dot"
 import { Stat } from "./Stat"
 
 export const SkillBox = ({
@@ -18,9 +19,11 @@ export const SkillBox = ({
       onClick={onClick}
     >
       <div className="flex justify-center items-center text-xl w-2 h-2">
-        {proficient ? <span className="text-cyan-600">●</span> : "○"}
+        <Dot filled={proficient} />
       </div>
+
       {name}
+
       <div className="ml-auto">
         <Stat value={modifier} />
       </div>

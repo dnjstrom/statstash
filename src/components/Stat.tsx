@@ -5,14 +5,14 @@ import { useExpressionResolver } from "../utils/useExpressionResolver"
 export const Stat = ({
   value,
   ...otherProps
-}: { value: Value } & JSX.HTMLAttributes<HTMLDivElement>) => {
+}: { value: Value } & JSX.HTMLAttributes<HTMLSpanElement>) => {
   const resolve = useExpressionResolver()
 
   const unresolved = value?.value
   const resolved =
     typeof unresolved === "string" ? resolve(unresolved).value : unresolved
 
-  return <div {...otherProps}>{formatValue(resolved)}</div>
+  return <span {...otherProps}>{formatValue(resolved)}</span>
 }
 
 const formatValue = <T,>(value: T): string => {
