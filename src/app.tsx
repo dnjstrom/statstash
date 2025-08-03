@@ -70,7 +70,14 @@ const DndRoutes = () => (
 
 const NavBar = () => {
   return (
-    <div className="fixed bottom-0 left-0 right-0 p-2 pb-4 bg-[oklch(0.2007_0.0321_232.15)] flex gap-1 overflow-x-auto">
+    <div
+      className="fixed p-2 bg-[oklch(0.2007_0.0321_232.15)] flex gap-1 overflow-x-auto"
+      style={{
+        bottom: "env(safe-area-inset-bottom)",
+        left: "env(safe-area-inset-left)",
+        right: "env(safe-area-inset-right)",
+      }}
+    >
       <NavBarItem href={pathWithBase("/dice")}>Dice</NavBarItem>
       <NavBarItem href={pathWithBase("/")}>Skills</NavBarItem>
       <NavBarItem href={pathWithBase("/combat")}>Combat</NavBarItem>

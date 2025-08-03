@@ -9,3 +9,10 @@ html {
   background: oklch(0.2007 0.0321 232.15);
   color: white;
 }
+
+body {
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-top: env(safe-area-inset-top);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}

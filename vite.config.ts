@@ -24,6 +24,7 @@ export default defineConfig({
         short_name: "StatStash",
         description: "Stores your character sheets",
         theme_color: "#051922",
+        background_color: "#051922",
       },
 
       workbox: {
