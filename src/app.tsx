@@ -26,7 +26,15 @@ const NotFound = lazy(() =>
 
 export const App = () => {
   return (
-    <div className="fixed inset-0 flex flex-col">
+    <div
+      className="fixed inset-0 flex flex-col"
+      style={{
+        paddingBottom: "env(safe-area-inset-bottom)",
+        paddingTop: "env(safe-area-inset-top)",
+        paddingLeft: "env(safe-area-inset-left)",
+        paddingRight: "env(safe-area-inset-right)",
+      }}
+    >
       <LocationProvider>
         <ErrorBoundary>
           <StatsProvider>
