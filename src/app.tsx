@@ -62,7 +62,7 @@ const DndRoutes = () => (
     <ToastProvider>
       <Header />
       <SwiperProvider startingIndex={1}>
-        <div className="h-full overflow-auto pb-2">
+        <div className="h-full overflow-hidden">
           <Swiper id="pages">
             <Dice />
             <Skills />

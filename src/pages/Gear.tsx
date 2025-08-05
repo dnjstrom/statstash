@@ -1,3 +1,5 @@
+import { Page } from "./Page"
+
 export const Gear = () => {
-  return <div className="px-2 flex flex-col gap-2">Gear</div>
+  return <Page>Gear</Page>
 }

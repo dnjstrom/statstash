@@ -7,6 +7,7 @@ import { Throw } from "../components/Throw"
 import { useToast } from "../components/Toast"
 import { useStats } from "../data/useStats"
 import { useExpressionResolver } from "../utils/useExpressionResolver"
+import { Page } from "./Page"
 
 export const Combat = () => {
   const stats = useStats()
@@ -16,7 +17,7 @@ export const Combat = () => {
   const toaster = useToast()
 
   return (
-    <div className="px-2 flex flex-col gap-2">
+    <Page>
       <Section title="Health">
         <div className="grid grid-cols-2 gap-2">
           <StatBox name="Hit Points">
@@ -169,6 +170,6 @@ export const Combat = () => {
           />
         </div>
       </Section>
-    </div>
+    </Page>
   )
 }

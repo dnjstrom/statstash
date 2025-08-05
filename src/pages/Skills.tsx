@@ -5,6 +5,7 @@ import { AttributeBox } from "../components/AttributeBox"
 import { SkillBox } from "../components/SkillBox"
 import { Section } from "../components/Section"
 import { Throw } from "../components/Throw"
+import { Page } from "./Page"
 
 export const Skills = () => {
   const stats = useStats()
@@ -14,7 +15,7 @@ export const Skills = () => {
   const toaster = useToast()
 
   return (
-    <div className="px-2 flex flex-col gap-2">
+    <Page>
       <Section title="Attributes">
         <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
           <AttributeBox
@@ -289,6 +290,6 @@ export const Skills = () => {
           />
         </div>
       </Section>
-    </div>
+    </Page>
   )
 }
