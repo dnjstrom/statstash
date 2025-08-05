@@ -12,13 +12,14 @@ import { Skills } from "./pages/Skills.tsx"
 import { StatsProvider } from "./data/useStats.tsx"
 import { pathWithBase } from "./utils/pathWithBase.tsx"
 import { ToastProvider } from "./components/Toast.tsx"
-import type { JSX } from "preact"
+import type { ComponentChildren } from "preact"
 import { Dice } from "./pages/Dice.tsx"
 import { Combat } from "./pages/Combat.tsx"
 import { Spells } from "./pages/Spells.tsx"
 import { Gear } from "./pages/Gear.tsx"
 import { Notes } from "./pages/Notes.tsx"
 import { Header } from "./pages/Header.tsx"
+import { Swiper, SwiperProvider, useSwiper } from "./components/Swiper.tsx"
 
 const NotFound = lazy(() =>
   import("./pages/NotFound.tsx").then((m) => m.NotFound)
@@ -43,8 +44,8 @@ export const App = () => {
                 <Route path={pathWithBase("/stats")} component={AllStats} />
 
                 <Route path={pathWithBase("/")} component={DndRoutes} />
-                <Route path={pathWithBase("/*")} component={DndRoutes} />
 
+                <Route default component={NotFound} />
                 <PWABadge />
               </Router>
             </ToastProvider>
@@ -59,21 +60,19 @@ const DndRoutes = () => (
   <ErrorBoundary>
     <ToastProvider>
       <Header />
-      <div className="h-full overflow-auto pb-2">
-        <Router>
-          <Route path={"/"} component={Skills} />
-          <Route path={"/dice"} component={Dice} />
-          <Route path={"/combat"} component={Combat} />
-          <Route path={"/spells"} component={Spells} />
-          <Route path={"/gear"} component={Gear} />
-          <Route path={"/notes"} component={Notes} />
-
-          <Route default component={NotFound} />
-          <PWABadge />
-        </Router>
-      </div>
-
-      <NavBar />
+      <SwiperProvider startingIndex={1}>
+        <div className="h-full overflow-auto pb-2">
+          <Swiper id="pages">
+            <Dice />
+            <Skills />
+            <Combat />
+            <Spells />
+            <Gear />
+            <Notes />
+          </Swiper>
+        </div>
+        <NavBar />
+      </SwiperProvider>
     </ToastProvider>
   </ErrorBoundary>
 )
@@ -81,28 +80,33 @@ const DndRoutes = () => (
 const NavBar = () => {
   return (
     <div className="p-2 pt-1 pb-0 bg-[oklch(0.2007_0.0321_232.15)] flex gap-1 overflow-x-auto">
-      <NavBarItem href={pathWithBase("/dice")}>Dice</NavBarItem>
-      <NavBarItem href={pathWithBase("/")}>Skills</NavBarItem>
-      <NavBarItem href={pathWithBase("/combat")}>Combat</NavBarItem>
-      <NavBarItem href={pathWithBase("/spells")}>Spells</NavBarItem>
-      <NavBarItem href={pathWithBase("/gear")}>Gear</NavBarItem>
-      <NavBarItem href={pathWithBase("/notes")}>Notes</NavBarItem>
+      <NavBarItem to={0}>Dice</NavBarItem>
+      <NavBarItem to={1}>Skills</NavBarItem>
+      <NavBarItem to={2}>Combat</NavBarItem>
+      <NavBarItem to={3}>Spells</NavBarItem>
+      <NavBarItem to={4}>Gear</NavBarItem>
+      <NavBarItem to={5}>Notes</NavBarItem>
     </div>
   )
 }
 
 const NavBarItem = ({
   children,
-  href,
-  ...otherProps
-}: { href: string } & JSX.HTMLAttributes<HTMLAnchorElement>) => {
+  to,
+}: {
+  to: number
+  children: ComponentChildren
+}) => {
+  const swiper = useSwiper()
+
   return (
-    <a
-      href={href}
-      {...otherProps}
+    <button
       className="bg-[oklch(0.2507_0.0321_232.15)] p-2 rounded-lg cursor-pointer text-lg flex items-center"
+      onClick={() => {
+        swiper.setCurrent(to)
+      }}
     >
       {children}
-    </a>
+    </button>
   )
 }
