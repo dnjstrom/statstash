@@ -20,6 +20,7 @@ import { Gear } from "./pages/Gear.tsx"
 import { Notes } from "./pages/Notes.tsx"
 import { Header } from "./pages/Header.tsx"
 import { Swiper, SwiperProvider, useSwiper } from "./components/Swiper.tsx"
+import { cn } from "./utils/cn.ts"
 
 const NotFound = lazy(() =>
   import("./pages/NotFound.tsx").then((m) => m.NotFound)
@@ -101,7 +102,10 @@ const NavBarItem = ({
 
   return (
     <button
-      className="bg-[oklch(0.2507_0.0321_232.15)] p-2 rounded-lg cursor-pointer text-lg flex items-center"
+      className={cn(
+        "bg-[oklch(0.2507_0.0321_232.15)] p-2 py-3 rounded-lg cursor-pointer text-lg flex items-center",
+        swiper.current === to && "bg-cyan-900"
+      )}
       onClick={() => {
         swiper.setCurrent(to)
       }}

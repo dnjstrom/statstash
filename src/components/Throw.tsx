@@ -7,7 +7,7 @@ export const Throw = ({
   equation,
   outcome,
 }: ThrowResult & { title: string; pretitle?: string }) => (
-  <div className="flex gap-2 justify-between items-center">
+  <div className="flex gap-8 justify-between items-center">
     <div className="flex flex-col">
       <div className="text-sm font-medium text-slate-400 -mb-0.5">
         {pretitle}

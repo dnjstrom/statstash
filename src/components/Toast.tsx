@@ -1,5 +1,5 @@
 import { ComponentChildren, createContext } from "preact"
-import { useContext, useEffect, useRef, useState } from "preact/hooks"
+import { useContext, useState } from "preact/hooks"
 
 const ToastContext = createContext<
   | undefined
@@ -50,39 +50,25 @@ const Toast = ({
   children: ComponentChildren
   onClose: () => void
 }) => {
-  const ref = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    if (ref.current) {
-      const node = ref.current
-
-      // Fade away
-      setTimeout(() => {
-        node.classList.add("!opacity-0")
-
-        // Ensure the hidden element doesn't block anything underneath
-        setTimeout(() => {
-          node.classList.add("!hidden")
-        }, 1_000)
-      }, 10_000)
-    }
-  }, [])
-
   return (
     <div
-      ref={ref}
-      className="fixed top-4 left-4 right-4 rounded-lg p-4 bg-[oklch(0.2507_0.0321_232.15)] text-3xl shadow-lg shadow-black border-2 border-white opacity-100 transition-opacity duration-1000 ease-in z-10"
+      className="fixed inset-0 bg-[rgba(0,0,0,0.5)] z-10 flex flex-col items-center p-4"
+      onClick={() => {
+        onClose()
+      }}
     >
-      <div
-        className="absolute -top-1 -right-1 flex justify-center items-center cursor-pointer select-none w-8 h-8 -m-2 text-lg rounded-full bg-[oklch(0.2507_0.0321_232.15)] border-2 border-white"
-        onClick={() => {
-          onClose()
-        }}
-      >
-        ✕
-      </div>
+      <div className="relative w-full rounded-lg p-4 bg-[oklch(0.2507_0.0321_232.15)] text-3xl shadow-lg shadow-black border-2 border-white opacity-100 transition-opacity duration-1000 ease-in">
+        <div
+          className="absolute -top-1 -right-1 flex justify-center items-center cursor-pointer select-none w-8 h-8 -m-2 text-lg rounded-full bg-[oklch(0.2507_0.0321_232.15)] border-2 border-white"
+          onClick={() => {
+            onClose()
+          }}
+        >
+          ✕
+        </div>
 
-      {children}
+        {children}
+      </div>
     </div>
   )
 }

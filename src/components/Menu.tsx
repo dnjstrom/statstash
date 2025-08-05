@@ -6,7 +6,7 @@ export const Menu = ({ children }: { children: ComponentChildren }) => {
   const [open, setOpen] = useState(false)
 
   return (
-    <div className="z-50">
+    <div>
       <div
         className="text-xl cursor-pointer flex items-center justify-center -m-2 -mt-3 p-2 select-none"
         onClick={() => {
