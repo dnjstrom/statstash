@@ -13,7 +13,7 @@ import { StatsProvider } from "./data/useStats.tsx"
 import { pathWithBase } from "./utils/pathWithBase.tsx"
 import { ToastProvider } from "./components/Toast.tsx"
 import type { ComponentChildren } from "preact"
-import { Dice } from "./pages/Dice.tsx"
+import { Roll } from "./pages/Roll.tsx"
 import { Combat } from "./pages/Combat.tsx"
 import { Spells } from "./pages/Spells.tsx"
 import { Gear } from "./pages/Gear.tsx"
@@ -64,7 +64,7 @@ const DndRoutes = () => (
       <SwiperProvider startingIndex={1}>
         <div className="h-full overflow-hidden">
           <Swiper id="pages">
-            <Dice />
+            <Roll />
             <Skills />
             <Combat />
             <Spells />
@@ -81,7 +81,7 @@ const DndRoutes = () => (
 const NavBar = () => {
   return (
     <div className="p-2 pt-1 pb-0 bg-[oklch(0.2007_0.0321_232.15)] flex gap-1 overflow-x-auto">
-      <NavBarItem to={0}>Dice</NavBarItem>
+      <NavBarItem to={0}>Roll</NavBarItem>
       <NavBarItem to={1}>Skills</NavBarItem>
       <NavBarItem to={2}>Combat</NavBarItem>
       <NavBarItem to={3}>Spells</NavBarItem>

@@ -69,7 +69,7 @@ export const Combat = () => {
           <StatBox
             name={
               <div className="flex">
-                Hit Dice (<Stat value={stats.get("hit_dice.die")} />)
+                Hit Roll (<Stat value={stats.get("hit_dice.die")} />)
               </div>
             }
           >

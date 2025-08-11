@@ -10,7 +10,7 @@ import { updateDice } from "../utils/updateDice"
 import { repeatWithDelay } from "../utils/repeatWithDelay"
 import { Button } from "../components/Button"
 
-export const Dice = () => {
+export const Roll = () => {
   const [expression, setExpression] = useState("")
 
   const [previousThrow, setPreviousThrow] = useImmer<ThrowResult | null>(null)
@@ -78,6 +78,8 @@ export const Dice = () => {
           onSubmit={(event) => {
             event.preventDefault()
             event.stopPropagation()
+
+            setPreviousThrow(null)
 
             if (expression.trim() === "") return
 
@@ -175,7 +177,7 @@ export const Dice = () => {
                 incrementDie(100)
               }}
             >
-              100
+              d100
             </Button>
           </div>
           <div className="grid grid-cols-3 gap-2">
