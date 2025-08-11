@@ -24,9 +24,24 @@ export const Skills = () => {
     pretitle: string
     title: string
   }) => {
-    await repeatWithDelay(10, async () => {
-      const result = resolve(expression)
+    let previous: string | number = ""
+
+    await repeatWithDelay(20, async () => {
+      let result = resolve(expression)
+
+      // Ensure we don't show the same result twice as it makes for a janky animation.
+      // Guard against infinite loops by breaking after 100 iterations.
+      for (let i = 0; i < 100; i++) {
+        if (result.value !== previous) {
+          break
+        }
+
+        result = resolve(expression)
+      }
+
       toaster.info(<Throw pretitle={pretitle} title={title} {...result} />)
+
+      previous = result.value
     })
   }
 
