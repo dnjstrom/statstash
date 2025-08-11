@@ -7,9 +7,18 @@ import { enableMapSet } from "immer"
 import { Signal, signal } from "@preact/signals"
 import { local } from "./db.ts"
 
+const ItemSchema = z.object({
+  type: z.literal("item"),
+  name: z.string(),
+  description: z.string().nullable(),
+  location: z.enum(["EQUIPPED", "CARRIED", "STORED"]).default("CARRIED"),
+})
+
+export type Item = z.infer<typeof ItemSchema>
+
 const StatDoc = z.object({
   _id: z.string(),
-  value: z.union([z.string(), z.number()]),
+  value: z.union([z.string(), z.number(), ItemSchema]),
 })
 
 export type Stat = z.infer<typeof StatDoc>
@@ -90,7 +99,12 @@ export const useStatSync = () => {
   useEffect(() => {
     // Set up initial docs
     initialDocs?.forEach((doc) => {
-      const { data: stat } = z.safeParse(StatDoc, doc)
+      const { data: stat, error } = z.safeParse(StatDoc, doc)
+
+      if (error) {
+        console.error("Invalid stat document:", error, doc)
+        return
+      }
 
       if (!stat || !doc?._id) return
 

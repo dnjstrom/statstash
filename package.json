@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "test": "vitest",
+    "typecheck": "tsc -b --noEmit",
+    "typecheck:watch": "tsc -b --noEmit --watch",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "build:gh": "pnpm build --base=/statstash",
@@ -27,6 +29,7 @@
     "swiper": "^11.2.10",
     "tailwindcss": "^4.1.11",
     "use-immer": "^0.11.0",
+    "uuid": "^11.1.0",
     "vite-plugin-node-polyfills": "^0.24.0",
     "zod": "^4.0.5"
   },

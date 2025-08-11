@@ -75,7 +75,7 @@ export const AllStats = () => {
               onInput={(updated) => {
                 value.value = updated.currentTarget.value
               }}
-              value={value}
+              value={JSON.stringify(value, null, 2)}
             />
 
             <div className="flex text-neutral-400 gap-1 text-sm">
