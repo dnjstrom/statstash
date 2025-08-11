@@ -6,6 +6,7 @@ import { StatBox } from "../components/StatBox"
 import { Throw } from "../components/Throw"
 import { useToast } from "../components/Toast"
 import { useStats } from "../data/useStats"
+import { repeatWithDelay } from "../utils/repeatWithDelay"
 import { useExpressionResolver } from "../utils/useExpressionResolver"
 import { Page } from "./Page"
 
@@ -15,6 +16,21 @@ export const Combat = () => {
   const resolve = useExpressionResolver()
 
   const toaster = useToast()
+
+  const throwRepeating = async ({
+    expression,
+    pretitle,
+    title,
+  }: {
+    expression: string
+    pretitle: string
+    title: string
+  }) => {
+    await repeatWithDelay(10, async () => {
+      const result = resolve(expression)
+      toaster.info(<Throw pretitle={pretitle} title={title} {...result} />)
+    })
+  }
 
   return (
     <Page>
@@ -88,11 +104,12 @@ export const Combat = () => {
             proficient={
               stats.get("strength.saving_throw.proficient")?.value === "1"
             }
-            onClick={() => {
-              const result = resolve("1d20+{strength.saving_throw}")
-              toaster.info(
-                <Throw pretitle="Saving Throw" title="Strength" {...result} />
-              )
+            onClick={async () => {
+              await throwRepeating({
+                expression: "1d20+{strength.saving_throw}",
+                pretitle: "Saving Throw",
+                title: "Strength",
+              })
             }}
           />
           <SkillBox
@@ -101,11 +118,12 @@ export const Combat = () => {
             proficient={
               stats.get("dexterity.saving_throw.proficient")?.value === "1"
             }
-            onClick={() => {
-              const result = resolve("1d20+{dexterity.saving_throw}")
-              toaster.info(
-                <Throw pretitle="Saving Throw" title="Dexterity" {...result} />
-              )
+            onClick={async () => {
+              await throwRepeating({
+                expression: "1d20+{dexterity.saving_throw}",
+                pretitle: "Saving Throw",
+                title: "Dexterity",
+              })
             }}
           />
           <SkillBox
@@ -114,15 +132,12 @@ export const Combat = () => {
             proficient={
               stats.get("constitution.saving_throw.proficient")?.value === "1"
             }
-            onClick={() => {
-              const result = resolve("1d20+{constitution.saving_throw}")
-              toaster.info(
-                <Throw
-                  pretitle="Saving Throw"
-                  title="Constitution"
-                  {...result}
-                />
-              )
+            onClick={async () => {
+              await throwRepeating({
+                expression: "1d20+{constitution.saving_throw}",
+                pretitle: "Saving Throw",
+                title: "Constitution",
+              })
             }}
           />
           <SkillBox
@@ -131,15 +146,12 @@ export const Combat = () => {
             proficient={
               stats.get("intelligence.saving_throw.proficient")?.value === "1"
             }
-            onClick={() => {
-              const result = resolve("1d20+{intelligence.saving_throw}")
-              toaster.info(
-                <Throw
-                  pretitle="Saving Throw"
-                  title="Intelligence"
-                  {...result}
-                />
-              )
+            onClick={async () => {
+              await throwRepeating({
+                expression: "1d20+{intelligence.saving_throw}",
+                pretitle: "Saving Throw",
+                title: "Intelligence",
+              })
             }}
           />
           <SkillBox
@@ -148,11 +160,12 @@ export const Combat = () => {
             proficient={
               stats.get("wisdom.saving_throw.proficient")?.value === "1"
             }
-            onClick={() => {
-              const result = resolve("1d20+{wisdom.saving_throw}")
-              toaster.info(
-                <Throw pretitle="Saving Throw" title="Wisdom" {...result} />
-              )
+            onClick={async () => {
+              await throwRepeating({
+                expression: "1d20+{wisdom.saving_throw}",
+                pretitle: "Saving Throw",
+                title: "Wisdom",
+              })
             }}
           />
           <SkillBox
@@ -161,11 +174,12 @@ export const Combat = () => {
             proficient={
               stats.get("charisma.saving_throw.proficient")?.value === "1"
             }
-            onClick={() => {
-              const result = resolve("1d20+{charisma.saving_throw}")
-              toaster.info(
-                <Throw pretitle="Saving Throw" title="Charisma" {...result} />
-              )
+            onClick={async () => {
+              await throwRepeating({
+                expression: "1d20+{charisma.saving_throw}",
+                pretitle: "Saving Throw",
+                title: "Charisma",
+              })
             }}
           />
         </div>
