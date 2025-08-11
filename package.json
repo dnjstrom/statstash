@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "test": "vitest",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "typecheck": "tsc -b --noEmit",
     "typecheck:watch": "tsc -b --noEmit --watch",
     "dev": "vite",
