@@ -6,6 +6,7 @@ import { useImmer } from "use-immer"
 import { enableMapSet } from "immer"
 import { Signal, signal } from "@preact/signals"
 import { local } from "./db.ts"
+import equal from "fast-deep-equal"
 
 const ItemSchema = z.object({
   type: z.literal("item"),
@@ -37,6 +38,11 @@ export const useStatSync = () => {
     s.subscribe(async (nextValue) => {
       const current = await local.get(id)
 
+      if ("value" in current && equal(current.value, nextValue)) {
+        // If the value is already correct, do nothing
+        return
+      }
+
       const updated = {
         ...current,
         value: nextValue,
@@ -49,6 +55,7 @@ export const useStatSync = () => {
   }
 
   const initialDocs = useDbChanges((change) => {
+    console.log("useDbChanges on change")
     change.change.docs.forEach((doc) => {
       // Handle remote deletes
       if ("_deleted" in doc) {

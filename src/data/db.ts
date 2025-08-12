@@ -1,6 +1,6 @@
 import { default as PouchDB } from "pouchdb"
 
-export const remote = new PouchDB("http://localhost:5984/stats", {
+export const remote = new PouchDB("http://localhost:5173/db/stats", {
   auth: {
     username: "admin",
     password: "admin",

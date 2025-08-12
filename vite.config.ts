@@ -6,6 +6,16 @@ import { nodePolyfills } from "vite-plugin-node-polyfills"
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    proxy: {
+      // Avoid CORS issues with CouchDB running in Docker
+      "/db": {
+        target: "http://localhost:5984",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/db/, ""),
+      },
+    },
+  },
   plugins: [
     preact(),
     tailwindcss(),

@@ -105,6 +105,20 @@ export const Dice = () => {
           <div className="grid grid-cols-4 gap-2">
             <Die
               onClick={() => {
+                incrementModifier(-5)
+              }}
+            >
+              -5
+            </Die>
+            <Die
+              onClick={() => {
+                incrementModifier(-1)
+              }}
+            >
+              -1
+            </Die>
+            <Die
+              onClick={() => {
                 incrementModifier(+1)
               }}
             >
@@ -116,20 +130,6 @@ export const Dice = () => {
               }}
             >
               +5
-            </Die>
-            <Die
-              onClick={() => {
-                incrementModifier(+10)
-              }}
-            >
-              +10
-            </Die>
-            <Die
-              onClick={() => {
-                incrementModifier(+50)
-              }}
-            >
-              +50
             </Die>
             <Die
               onClick={() => {

@@ -44,7 +44,14 @@ export const App = () => {
               <Router>
                 <Route path={pathWithBase("/stats")} component={AllStats} />
 
-                <Route path={pathWithBase("/")} component={DndRoutes} />
+                <Route
+                  path={pathWithBase("/")}
+                  component={() => (
+                    <SwiperProvider startingIndex={1}>
+                      <DndRoutes />
+                    </SwiperProvider>
+                  )}
+                />
 
                 <Route default component={NotFound} />
                 <PWABadge />
@@ -57,13 +64,21 @@ export const App = () => {
   )
 }
 
-const DndRoutes = () => (
-  <ErrorBoundary>
-    <ToastProvider>
-      <Header />
-      <SwiperProvider startingIndex={1}>
+const DndRoutes = () => {
+  const { current, setCurrent } = useSwiper()
+
+  return (
+    <ErrorBoundary>
+      <ToastProvider>
+        <Header />
         <div className="h-full overflow-hidden">
-          <Swiper id="pages">
+          <Swiper
+            id="pages"
+            current={current}
+            onChange={(swiper) => {
+              setCurrent(swiper.realIndex)
+            }}
+          >
             <Dice />
             <Skills />
             <Combat />
@@ -72,22 +87,27 @@ const DndRoutes = () => (
             <Notes />
           </Swiper>
         </div>
-        <NavBar />
-      </SwiperProvider>
-    </ToastProvider>
-  </ErrorBoundary>
-)
-
-const NavBar = () => {
-  return (
-    <div className="p-2 pt-1 pb-0 bg-[oklch(0.2007_0.0321_232.15)] flex gap-1 overflow-x-auto">
-      <NavBarItem to={0}>Dice</NavBarItem>
-      <NavBarItem to={1}>Skills</NavBarItem>
-      <NavBarItem to={2}>Combat</NavBarItem>
-      <NavBarItem to={3}>Spells</NavBarItem>
-      <NavBarItem to={4}>Gear</NavBarItem>
-      <NavBarItem to={5}>Notes</NavBarItem>
-    </div>
+        <div>
+          <Swiper
+            id="navbar"
+            current={current}
+            options={{
+              slidesPerView: 4,
+              spaceBetween: 8,
+              centeredSlides: true,
+              allowTouchMove: true,
+            }}
+          >
+            <NavBarItem to={0}>Dice</NavBarItem>
+            <NavBarItem to={1}>Skills</NavBarItem>
+            <NavBarItem to={2}>Combat</NavBarItem>
+            <NavBarItem to={3}>Spells</NavBarItem>
+            <NavBarItem to={4}>Gear</NavBarItem>
+            <NavBarItem to={5}>Notes</NavBarItem>
+          </Swiper>
+        </div>
+      </ToastProvider>
+    </ErrorBoundary>
   )
 }
 
@@ -103,8 +123,8 @@ const NavBarItem = ({
   return (
     <button
       className={cn(
-        "bg-[oklch(0.2507_0.0321_232.15)] p-2 py-3 rounded-lg cursor-pointer text-lg flex items-center",
-        swiper.current === to && "bg-cyan-900"
+        "p-2 py-3 rounded-lg cursor-pointer flex items-start justify-center w-full text-lg text-gray-400",
+        swiper.current === to && "text-white"
       )}
       onClick={() => {
         swiper.setCurrent(to)

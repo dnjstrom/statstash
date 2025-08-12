@@ -1,26 +1,33 @@
 import SwiperClass from "swiper"
 import { ComponentChildren, createContext, toChildArray } from "preact"
 import { useContext, useEffect, useRef, useState } from "preact/hooks"
+import { SwiperOptions } from "swiper/types"
 
 export const Swiper = ({
   children,
   id,
+  onChange,
+  current = 0,
+  options = {},
 }: {
+  current: number
   children: ComponentChildren
   id: string
+  onChange?: (swiper: SwiperClass) => void
+  options?: SwiperOptions
 }) => {
-  const { current, setCurrent } = useSwiper()
   const swiperRef = useRef<SwiperClass>()
 
   useEffect(() => {
     const swiper = new SwiperClass(`#${id}`, {
       initialSlide: current,
+      ...options,
     })
 
     swiperRef.current = swiper
 
     swiper.on("slideChange", (swiper: SwiperClass) => {
-      setCurrent(swiper.activeIndex)
+      onChange?.(swiper)
     })
 
     return () => {
@@ -33,7 +40,9 @@ export const Swiper = ({
 
     if (!swiper) return
 
-    swiper.slideTo(current)
+    if (current !== swiper.realIndex) {
+      swiper.slideToLoop(current)
+    }
   }, [current])
 
   return (
