@@ -9,8 +9,10 @@ import { updateModifier } from "../utils/updateModifier"
 import { updateDice } from "../utils/updateDice"
 import { repeatWithDelay } from "../utils/repeatWithDelay"
 import { Button } from "../components/Button"
+import { ComponentProps } from "preact"
+import { cn } from "../utils/cn"
 
-export const Roll = () => {
+export const Dice = () => {
   const [expression, setExpression] = useState("")
 
   const [previousThrow, setPreviousThrow] = useImmer<ThrowResult | null>(null)
@@ -28,7 +30,7 @@ export const Roll = () => {
     })
   }
 
-  const throwRepeating = async () => {
+  const throwRepeating = async (expression: string) => {
     let previous: string | number = ""
 
     await repeatWithDelay(20, async () => {
@@ -55,17 +57,18 @@ export const Roll = () => {
       <div className="flex flex-col gap-4 justify-end h-full">
         {previousThrow ? (
           <div className="h-full flex flex-col justify-center items-center">
-            <div className="max-w-[80%] text-lg break-all text-center">
-              {previousThrow.equation}
-              {previousThrow.outcome !== previousThrow.value.toString() && (
-                <>
-                  <span className="text-slate-400">=</span>
-                  {previousThrow.outcome}
-                </>
-              )}
+            <div className="relative text-9xl/24 font-black w-full text-center">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 -translate-y-full max-w-[80%] text-lg break-all text-center">
+                {previousThrow.equation}
+                {previousThrow.outcome !== previousThrow.value.toString() && (
+                  <>
+                    <span className="text-slate-400">=</span>
+                    {previousThrow.outcome}
+                  </>
+                )}
+              </div>
+              {previousThrow.value}
             </div>
-
-            <div className="text-9xl font-black">{previousThrow.value}</div>
           </div>
         ) : (
           <div className="h-full flex flex-col justify-center items-center text-6xl text-[oklch(0.2507_0.0321_232.15)]">
@@ -81,13 +84,18 @@ export const Roll = () => {
 
             setPreviousThrow(null)
 
-            if (expression.trim() === "") return
-
-            throwRepeating()
+            if (expression.trim() === "") {
+              if (previousThrow) {
+                throwRepeating(previousThrow.equation)
+              }
+            } else {
+              throwRepeating(expression)
+              setExpression("")
+            }
           }}
         >
           <input
-            className="rounded p-2 text-center"
+            className="p-2 text-center text-xl bg-[oklch(0.2507_0.0321_232.15)]"
             value={expression}
             onChange={(event) => {
               setExpression(event.currentTarget.value)
@@ -95,93 +103,93 @@ export const Roll = () => {
           />
 
           <div className="grid grid-cols-4 gap-2">
-            <Button
+            <Die
               onClick={() => {
                 incrementModifier(+1)
               }}
             >
               +1
-            </Button>
-            <Button
+            </Die>
+            <Die
               onClick={() => {
                 incrementModifier(+5)
               }}
             >
               +5
-            </Button>
-            <Button
+            </Die>
+            <Die
               onClick={() => {
                 incrementModifier(+10)
               }}
             >
               +10
-            </Button>
-            <Button
+            </Die>
+            <Die
               onClick={() => {
                 incrementModifier(+50)
               }}
             >
               +50
-            </Button>
-            <Button
+            </Die>
+            <Die
               onClick={() => {
                 incrementDie(2)
               }}
             >
               d2
-            </Button>
-            <Button
+            </Die>
+            <Die
               onClick={() => {
                 incrementDie(4)
               }}
             >
               d4
-            </Button>
-            <Button
+            </Die>
+            <Die
               onClick={() => {
                 incrementDie(6)
               }}
             >
               d6
-            </Button>
-            <Button
+            </Die>
+            <Die
               onClick={() => {
                 incrementDie(8)
               }}
             >
               d8
-            </Button>
-            <Button
+            </Die>
+            <Die
               onClick={() => {
                 incrementDie(10)
               }}
             >
               d10
-            </Button>
-            <Button
+            </Die>
+            <Die
               onClick={() => {
                 incrementDie(12)
               }}
             >
               d12
-            </Button>
-            <Button
+            </Die>
+            <Die
               onClick={() => {
                 incrementDie(20)
               }}
             >
               d20
-            </Button>
-            <Button
+            </Die>
+            <Die
               onClick={() => {
                 incrementDie(100)
               }}
             >
               d100
-            </Button>
+            </Die>
           </div>
           <div className="grid grid-cols-3 gap-2">
-            <Button
+            <Die
               onClick={() => {
                 setExpression("")
 
@@ -191,13 +199,17 @@ export const Roll = () => {
               }}
             >
               Clear
-            </Button>
-            <Button type="submit" className="col-span-2">
-              Throw
-            </Button>
+            </Die>
+            <Die type="submit" className="col-span-2">
+              Roll
+            </Die>
           </div>
         </form>
       </div>
     </Page>
   )
 }
+
+const Die = ({ className, ...props }: ComponentProps<typeof Button>) => (
+  <Button {...props} className={cn("py-3", className)} />
+)
