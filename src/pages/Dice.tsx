@@ -53,7 +53,7 @@ export const Dice = () => {
   }
 
   return (
-    <Page>
+    <Page className="!pb-0">
       <div className="flex flex-col gap-4 justify-end h-full">
         {previousThrow ? (
           <div className="h-full flex flex-col justify-center items-center">

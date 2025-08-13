@@ -123,7 +123,7 @@ const NavBarItem = ({
   return (
     <button
       className={cn(
-        "p-2 py-3 rounded-lg cursor-pointer flex items-start justify-center w-full text-lg text-gray-400",
+        "p-2 pb-1 rounded-lg cursor-pointer flex items-start justify-center w-full text-lg text-gray-400",
         swiper.current === to && "text-white"
       )}
       onClick={() => {
