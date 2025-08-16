@@ -1,3 +1,4 @@
+import { ComponentChild } from "preact"
 import type { Item as ItemType } from "../data/useStatSync"
 import { cn } from "../utils/cn"
 
@@ -5,12 +6,14 @@ export const Item = ({
   item,
   showDescription = true,
   onClick,
+  action,
 }: {
   item: ItemType & {
     key: string
   }
   showDescription?: boolean
   onClick?: () => void
+  action?: ComponentChild
 }) => (
   <div className="flex flex-col gap-1 items-baseline px-4 py-2 bg-[oklch(0.2507_0.0321_232.15)]  rounded-lg">
     <button
@@ -28,6 +31,8 @@ export const Item = ({
           {item.description}
         </div>
       )}
+
+      {action && <div className="ml-auto">{action}</div>}
     </button>
 
     {item.description && showDescription ? (

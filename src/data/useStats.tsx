@@ -7,7 +7,7 @@ export type Value = Signal<Stat["value"]> | undefined
 
 type StatsContextType = {
   get: (name: string) => Signal<Stat["value"]> | undefined
-  add: (id: Stat["_id"], value: Stat["value"]) => Promise<void>
+  set: (id: Stat["_id"], value: Stat["value"]) => Promise<void>
   remove: (id: string) => Promise<void>
   entries: [string, Signal<Stat["value"]>][]
 }
@@ -19,7 +19,7 @@ export const StatsProvider = ({
 }: {
   children: ComponentChildren
 }) => {
-  const { addStat, removeStat, stats } = useStatSync()
+  const { setStat, removeStat, stats } = useStatSync()
 
   const get = useCallback((name: string) => stats.get(name), [stats])
 
@@ -32,7 +32,7 @@ export const StatsProvider = ({
     <StatsContext.Provider
       value={{
         get,
-        add: addStat,
+        set: setStat,
         remove: removeStat,
         entries,
       }}

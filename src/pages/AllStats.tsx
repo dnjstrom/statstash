@@ -36,7 +36,7 @@ export const AllStats = () => {
 
             if (!key || typeof key !== "string") return
 
-            stats.add(key, "")
+            stats.set(key, "")
             setSearch("")
 
             event.currentTarget.reset()

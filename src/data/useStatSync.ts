@@ -8,7 +8,7 @@ import { Signal, signal } from "@preact/signals"
 import { local } from "./db.ts"
 import equal from "fast-deep-equal"
 
-const ItemSchema = z.object({
+export const ItemSchema = z.object({
   type: z.literal("item"),
   name: z.string(),
   description: z.string().nullable(),
@@ -80,9 +80,18 @@ export const useStatSync = () => {
     })
   })
 
-  const addStat = useCallback(
+  const setStat = useCallback(
     async (_id: Stat["_id"], value: Stat["value"]) => {
+      let current
+
+      try {
+        current = await local.get(_id)
+      } catch (error) {
+        console.error("Error fetching stat:", error)
+      }
+
       const result = await local.put({
+        ...current,
         _id: _id,
         value,
       })
@@ -122,5 +131,5 @@ export const useStatSync = () => {
     })
   }, [initialDocs])
 
-  return { stats, addStat, removeStat }
+  return { stats, setStat, removeStat }
 }

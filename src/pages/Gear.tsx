@@ -7,7 +7,9 @@ import { useStats } from "../data/useStats"
 import { Page } from "./Page"
 import { v4 } from "uuid"
 import type { Item as ItemType } from "../data/useStatSync"
+import { ItemSchema } from "../data/useStatSync"
 import { Item } from "../components/Item"
+import { ActionButton } from "../components/ActionButton"
 import { useImmer } from "use-immer"
 
 const isItem = (value: unknown): value is ItemType =>
@@ -18,7 +20,7 @@ const isItem = (value: unknown): value is ItemType =>
 
 export const Gear = () => {
   const stats = useStats()
-  const [isOpen, setIsOpen] = useState(false)
+  const [editingGearId, setEditingGearId] = useState<string>()
 
   const gear = useMemo(() => {
     return stats.entries
@@ -28,6 +30,8 @@ export const Gear = () => {
         return []
       })
   }, [stats.entries])
+
+  const editingGear = gear.find((item) => item.key === `gear.${editingGearId}`)
 
   const equipped = gear.filter((item) => item.location === "EQUIPPED")
   const carried = gear.filter((item) => item.location === "CARRIED")
@@ -63,55 +67,82 @@ export const Gear = () => {
       </Section>
 
       <Section title="Equipped" className="flex flex-col gap-2">
-        {equipped.map((item) => (
-          <Item
-            key={item.key}
-            item={item}
-            showDescription={open.has(item.key)}
-            onClick={() => {
-              toggleOpen(item.key)
-            }}
-          ></Item>
-        ))}
+        {equipped.map((item) => {
+          const itemId = item.key.replace("gear.", "")
+
+          return (
+            <Item
+              key={item.key}
+              item={item}
+              showDescription={open.has(item.key)}
+              onClick={() => {
+                toggleOpen(item.key)
+              }}
+              action={
+                <ActionButton onClick={() => setEditingGearId(itemId)}>
+                  Edit
+                </ActionButton>
+              }
+            ></Item>
+          )
+        })}
       </Section>
       <Section title="Carried" className="flex flex-col gap-2">
-        {carried.map((item) => (
-          <Item
-            key={item.key}
-            item={item}
-            showDescription={open.has(item.key)}
-            onClick={() => {
-              toggleOpen(item.key)
-            }}
-          ></Item>
-        ))}
+        {carried.map((item) => {
+          const itemId = item.key.replace("gear.", "")
+
+          return (
+            <Item
+              key={item.key}
+              item={item}
+              showDescription={open.has(item.key)}
+              onClick={() => {
+                toggleOpen(item.key)
+              }}
+              action={
+                <ActionButton onClick={() => setEditingGearId(itemId)}>
+                  Edit
+                </ActionButton>
+              }
+            ></Item>
+          )
+        })}
       </Section>
       <Section title="Stored" className="flex flex-col gap-2">
-        {stored.map((item) => (
-          <Item
-            key={item.key}
-            item={item}
-            showDescription={open.has(item.key)}
-            onClick={() => {
-              toggleOpen(item.key)
-            }}
-          ></Item>
-        ))}
+        {stored.map((item) => {
+          const itemId = item.key.replace("gear.", "")
+
+          return (
+            <Item
+              key={item.key}
+              item={item}
+              showDescription={open.has(item.key)}
+              onClick={() => {
+                toggleOpen(item.key)
+              }}
+              action={
+                <ActionButton onClick={() => setEditingGearId(itemId)}>
+                  Edit
+                </ActionButton>
+              }
+            ></Item>
+          )
+        })}
       </Section>
 
       <button
         className="fixed bottom-4 right-4 w-12 h-12 bg-cyan-900 text-white rounded-full shadow cursor-pointer text-3xl flex justify-center items-center text-center"
         onClick={() => {
-          setIsOpen(true)
+          setEditingGearId(v4())
         }}
       >
         <span className="-mt-1">+</span>
       </button>
 
       <Modal
-        isOpen={isOpen}
+        isOpen={Boolean(editingGearId)}
         onClose={() => {
-          setIsOpen(false)
+          setEditingGearId(undefined)
         }}
         orientation="center"
       >
@@ -122,23 +153,31 @@ export const Gear = () => {
             event.stopPropagation()
             const formData = new FormData(event.currentTarget)
 
-            const id = v4()
-            const key = `gear.${id}`
+            const key = `gear.${editingGearId}`
 
             const name = formData.get("name")
 
             if (!name || typeof name !== "string") return
 
             const description = formData.get("description")
+            const locationValue = formData.get("location") as string
 
-            stats.add(key, {
+            // Use the ItemSchema to parse and validate the location
+            const locationResult =
+              ItemSchema.shape.location.safeParse(locationValue)
+            const location = locationResult.success
+              ? locationResult.data
+              : "CARRIED"
+
+            stats.set(key, {
               type: "item",
               name,
               description: typeof description === "string" ? description : null,
-              location: "CARRIED",
+              location,
             })
 
             event.currentTarget.reset()
+            setEditingGearId(undefined)
           }}
         >
           <label className="font-medium">Name</label>
@@ -147,6 +186,7 @@ export const Gear = () => {
             name="name"
             className="border border-white rounded px-2 py-1"
             autofocus
+            defaultValue={editingGear?.name || ""}
           />
 
           <label className="font-medium">Description</label>
@@ -154,12 +194,13 @@ export const Gear = () => {
             name="description"
             className="border border-white rounded px-2 py-1"
             rows={5}
+            defaultValue={editingGear?.description || ""}
           />
 
           <label className="font-medium">Location</label>
           <select
             name="location"
-            defaultValue="CARRIED"
+            defaultValue={editingGear?.location || "CARRIED"}
             className="border border-white rounded px-2 py-1"
           >
             <option value="EQUIPPED">Equipped</option>
@@ -167,7 +208,9 @@ export const Gear = () => {
             <option value="STORED">Stored</option>
           </select>
 
-          <button type="submit">Add</button>
+          <button type="submit" className="border rounded">
+            Save
+          </button>
         </form>
       </Modal>
     </Page>
