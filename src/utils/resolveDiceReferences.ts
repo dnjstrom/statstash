@@ -1,3 +1,5 @@
+import { randomInt } from "./randomInt"
+
 export const resolveDiceReferences = (expression: string): string => {
   const reference = expression.match(/\b(\d+d\d+)\b/i)?.[1]
 
@@ -5,15 +7,13 @@ export const resolveDiceReferences = (expression: string): string => {
 
   const [amount, value] = reference.split(/d/i).map((n) => parseInt(n, 10))
 
-  let sum = 0
+  let sum = ""
 
   for (let i = 0; i < amount; i += 1) {
-    sum += randomInt(value)
+    sum += (i === 0 ? "" : "+") + randomInt(value)
   }
 
   const resolved = expression.replace(reference, String(sum))
 
   return resolveDiceReferences(resolved)
 }
-
-const randomInt = (max: number) => Math.ceil(Math.random() * max)
