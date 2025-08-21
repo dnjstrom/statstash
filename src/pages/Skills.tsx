@@ -1,3 +1,4 @@
+import { useState } from "preact/hooks"
 import { useStats } from "../data/useStats"
 import { useExpressionResolver } from "../utils/useExpressionResolver"
 import { useToast } from "../components/Toast"
@@ -7,13 +8,16 @@ import { Section } from "../components/Section"
 import { Throw } from "../components/Throw"
 import { Page } from "./Page"
 import { repeatWithDelay } from "../utils/repeatWithDelay"
+import { Modal } from "../components/Modal"
 
 export const Skills = () => {
   const stats = useStats()
-
   const resolve = useExpressionResolver()
-
   const toaster = useToast()
+
+  // State for editing attributes and skills
+  const [editingAttributeId, setEditingAttributeId] = useState<string>()
+  const [editingSkillId, setEditingSkillId] = useState<string>()
 
   const throwRepeating = async ({
     expression,
@@ -60,6 +64,7 @@ export const Skills = () => {
                 title: "Strength",
               })
             }}
+            onLongPress={() => setEditingAttributeId("strength")}
           />
           <AttributeBox
             name="Dexterity"
@@ -72,6 +77,7 @@ export const Skills = () => {
                 title: "Dexterity",
               })
             }}
+            onLongPress={() => setEditingAttributeId("dexterity")}
           />
           <AttributeBox
             name="Constitution"
@@ -84,6 +90,7 @@ export const Skills = () => {
                 title: "Constitution",
               })
             }}
+            onLongPress={() => setEditingAttributeId("constitution")}
           />
           <AttributeBox
             name="Intelligence"
@@ -96,6 +103,7 @@ export const Skills = () => {
                 title: "Intelligence",
               })
             }}
+            onLongPress={() => setEditingAttributeId("intelligence")}
           />
           <AttributeBox
             name="Wisdom"
@@ -108,6 +116,7 @@ export const Skills = () => {
                 title: "Wisdom",
               })
             }}
+            onLongPress={() => setEditingAttributeId("wisdom")}
           />
           <AttributeBox
             name="Charisma"
@@ -120,6 +129,7 @@ export const Skills = () => {
                 title: "Charisma",
               })
             }}
+            onLongPress={() => setEditingAttributeId("charisma")}
           />
         </div>
       </Section>
@@ -137,6 +147,7 @@ export const Skills = () => {
                 title: "Acrobatics",
               })
             }}
+            onLongPress={() => setEditingSkillId("acrobatics")}
           />
           <SkillBox
             name="Animal Handling"
@@ -149,6 +160,7 @@ export const Skills = () => {
                 title: "Animal Handling",
               })
             }}
+            onLongPress={() => setEditingSkillId("animal_handling")}
           />
           <SkillBox
             name="Arcana"
@@ -161,6 +173,7 @@ export const Skills = () => {
                 title: "Arcana",
               })
             }}
+            onLongPress={() => setEditingSkillId("arcana")}
           />
           <SkillBox
             name="Athletics"
@@ -173,6 +186,7 @@ export const Skills = () => {
                 title: "Athletics",
               })
             }}
+            onLongPress={() => setEditingSkillId("athletics")}
           />
           <SkillBox
             name="Deception"
@@ -185,6 +199,7 @@ export const Skills = () => {
                 title: "Deception",
               })
             }}
+            onLongPress={() => setEditingSkillId("deception")}
           />
           <SkillBox
             name="History"
@@ -197,6 +212,7 @@ export const Skills = () => {
                 title: "History",
               })
             }}
+            onLongPress={() => setEditingSkillId("history")}
           />
           <SkillBox
             name="Insight"
@@ -209,6 +225,7 @@ export const Skills = () => {
                 title: "Insight",
               })
             }}
+            onLongPress={() => setEditingSkillId("insight")}
           />
           <SkillBox
             name="Intimidation"
@@ -221,6 +238,7 @@ export const Skills = () => {
                 title: "Intimidation",
               })
             }}
+            onLongPress={() => setEditingSkillId("intimidation")}
           />
           <SkillBox
             name="Investigation"
@@ -233,6 +251,7 @@ export const Skills = () => {
                 title: "Investigation",
               })
             }}
+            onLongPress={() => setEditingSkillId("investigation")}
           />
           <SkillBox
             name="Medicine"
@@ -245,6 +264,7 @@ export const Skills = () => {
                 title: "Medicine",
               })
             }}
+            onLongPress={() => setEditingSkillId("medicine")}
           />
           <SkillBox
             name="Nature"
@@ -257,6 +277,7 @@ export const Skills = () => {
                 title: "Nature",
               })
             }}
+            onLongPress={() => setEditingSkillId("nature")}
           />
           <SkillBox
             name="Perception"
@@ -269,6 +290,7 @@ export const Skills = () => {
                 title: "Perception",
               })
             }}
+            onLongPress={() => setEditingSkillId("perception")}
           />
           <SkillBox
             name="Performance"
@@ -281,6 +303,7 @@ export const Skills = () => {
                 title: "Performance",
               })
             }}
+            onLongPress={() => setEditingSkillId("performance")}
           />
           <SkillBox
             name="Persuasion"
@@ -293,6 +316,7 @@ export const Skills = () => {
                 title: "Persuasion",
               })
             }}
+            onLongPress={() => setEditingSkillId("persuasion")}
           />
           <SkillBox
             name="Religion"
@@ -305,6 +329,7 @@ export const Skills = () => {
                 title: "Religion",
               })
             }}
+            onLongPress={() => setEditingSkillId("religion")}
           />
           <SkillBox
             name="Sleight of Hand"
@@ -317,6 +342,7 @@ export const Skills = () => {
                 title: "Sleight of Hand",
               })
             }}
+            onLongPress={() => setEditingSkillId("sleight_of_hand")}
           />
           <SkillBox
             name="Stealth"
@@ -329,6 +355,7 @@ export const Skills = () => {
                 title: "Stealth",
               })
             }}
+            onLongPress={() => setEditingSkillId("stealth")}
           />
           <SkillBox
             name="Survival"
@@ -341,9 +368,118 @@ export const Skills = () => {
                 title: "Survival",
               })
             }}
+            onLongPress={() => setEditingSkillId("survival")}
           />
         </div>
       </Section>
+
+      <Modal
+        isOpen={Boolean(editingAttributeId)}
+        onClose={() => {
+          setEditingAttributeId(undefined)
+        }}
+        orientation="center"
+      >
+        <form
+          className="flex flex-col gap-4"
+          onSubmit={(event) => {
+            event.preventDefault()
+            event.stopPropagation()
+            const formData = new FormData(event.currentTarget)
+
+            if (!editingAttributeId) return
+
+            const value = formData.get("value")
+
+            if (!value || typeof value !== "string") return
+
+            const attributeKey = `${editingAttributeId}.attribute`
+            stats.set(attributeKey, value)
+
+            event.currentTarget.reset()
+            setEditingAttributeId(undefined)
+          }}
+        >
+          <label className="font-medium">
+            {editingAttributeId
+              ? editingAttributeId.charAt(0).toUpperCase() +
+                editingAttributeId.slice(1)
+              : ""}{" "}
+            Value
+          </label>
+          <input
+            type="number"
+            name="value"
+            min="1"
+            className="border border-white rounded px-2 py-1"
+            autofocus
+            defaultValue={
+              (editingAttributeId &&
+                stats
+                  .get(`${editingAttributeId}.attribute`)
+                  ?.value?.toString()) ||
+              ""
+            }
+          />
+
+          <button type="submit" className="border rounded">
+            Save
+          </button>
+        </form>
+      </Modal>
+
+      <Modal
+        isOpen={Boolean(editingSkillId)}
+        onClose={() => {
+          setEditingSkillId(undefined)
+        }}
+        orientation="center"
+      >
+        <form
+          className="flex flex-col gap-4"
+          onSubmit={(event) => {
+            event.preventDefault()
+            event.stopPropagation()
+            const formData = new FormData(event.currentTarget)
+
+            if (!editingSkillId) return
+
+            const isProficient = formData.get("proficient") === "on" ? "1" : "0"
+
+            stats.set(`${editingSkillId}.proficient`, isProficient)
+
+            event.currentTarget.reset()
+            setEditingSkillId(undefined)
+          }}
+        >
+          <label className="font-medium">
+            {editingSkillId
+              ? editingSkillId
+                  .split("_")
+                  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join(" ")
+              : ""}
+          </label>
+
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              name="proficient"
+              id="proficient"
+              defaultChecked={
+                editingSkillId
+                  ? stats.get(`${editingSkillId}.proficient`)?.value === "1"
+                  : false
+              }
+            />
+            <label htmlFor="proficient">Proficient</label>
+          </div>
+
+          <button type="submit" className="border rounded">
+            Save
+          </button>
+        </form>
+      </Modal>
     </Page>
   )
 }

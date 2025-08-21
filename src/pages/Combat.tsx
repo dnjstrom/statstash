@@ -1,3 +1,4 @@
+import { useState } from "preact/hooks"
 import { Dot } from "../components/Dot"
 import { Section } from "../components/Section"
 import { SkillBox } from "../components/SkillBox"
@@ -9,13 +10,15 @@ import { useStats } from "../data/useStats"
 import { repeatWithDelay } from "../utils/repeatWithDelay"
 import { useExpressionResolver } from "../utils/useExpressionResolver"
 import { Page } from "./Page"
+import { Modal } from "../components/Modal"
 
 export const Combat = () => {
   const stats = useStats()
-
   const resolve = useExpressionResolver()
-
   const toaster = useToast()
+
+  // State for editing saving throws
+  const [editingSavingThrowId, setEditingSavingThrowId] = useState<string>()
 
   const throwRepeating = async ({
     expression,
@@ -126,6 +129,7 @@ export const Combat = () => {
                 title: "Strength",
               })
             }}
+            onLongPress={() => setEditingSavingThrowId("strength")}
           />
           <SkillBox
             name="Dexterity"
@@ -140,6 +144,7 @@ export const Combat = () => {
                 title: "Dexterity",
               })
             }}
+            onLongPress={() => setEditingSavingThrowId("dexterity")}
           />
           <SkillBox
             name="Constitution"
@@ -154,6 +159,7 @@ export const Combat = () => {
                 title: "Constitution",
               })
             }}
+            onLongPress={() => setEditingSavingThrowId("constitution")}
           />
           <SkillBox
             name="Intelligence"
@@ -168,6 +174,7 @@ export const Combat = () => {
                 title: "Intelligence",
               })
             }}
+            onLongPress={() => setEditingSavingThrowId("intelligence")}
           />
           <SkillBox
             name="Wisdom"
@@ -182,6 +189,7 @@ export const Combat = () => {
                 title: "Wisdom",
               })
             }}
+            onLongPress={() => setEditingSavingThrowId("wisdom")}
           />
           <SkillBox
             name="Charisma"
@@ -196,9 +204,66 @@ export const Combat = () => {
                 title: "Charisma",
               })
             }}
+            onLongPress={() => setEditingSavingThrowId("charisma")}
           />
         </div>
       </Section>
+
+      <Modal
+        isOpen={Boolean(editingSavingThrowId)}
+        onClose={() => {
+          setEditingSavingThrowId(undefined)
+        }}
+        orientation="center"
+      >
+        <form
+          className="flex flex-col gap-4"
+          onSubmit={(event) => {
+            event.preventDefault()
+            event.stopPropagation()
+            const formData = new FormData(event.currentTarget)
+
+            if (!editingSavingThrowId) return
+
+            const isProficient = formData.get("proficient") === "on" ? "1" : "0"
+
+            stats.set(
+              `${editingSavingThrowId}.saving_throw.proficient`,
+              isProficient
+            )
+
+            event.currentTarget.reset()
+            setEditingSavingThrowId(undefined)
+          }}
+        >
+          <label className="font-medium">
+            {editingSavingThrowId
+              ? editingSavingThrowId.charAt(0).toUpperCase() +
+                editingSavingThrowId.slice(1)
+              : ""}{" "}
+            Saving Throw
+          </label>
+
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              name="proficient"
+              id="proficient"
+              defaultChecked={
+                editingSavingThrowId
+                  ? stats.get(`${editingSavingThrowId}.saving_throw.proficient`)
+                      ?.value === "1"
+                  : false
+              }
+            />
+            <label htmlFor="proficient">Proficient</label>
+          </div>
+
+          <button type="submit" className="border rounded">
+            Save
+          </button>
+        </form>
+      </Modal>
     </Page>
   )
 }

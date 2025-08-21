@@ -8,15 +8,17 @@ export const SkillBox = ({
   modifier,
   proficient,
   onClick,
+  onLongPress,
 }: {
   name: string
   modifier: Value
   proficient: boolean
   onClick: () => void
+  onLongPress?: () => void
 }) => {
   const interaction = useInteraction({
     onClick,
-    onLongPress: () => alert(`Long pressed on ${name}`),
+    onLongPress: onLongPress || (() => {}),
   })
 
   return (
