@@ -9,7 +9,6 @@ import { v4 } from "uuid"
 import type { Item as ItemType } from "../data/useStatSync"
 import { ItemSchema } from "../data/useStatSync"
 import { Item } from "../components/Item"
-import { ActionButton } from "../components/ActionButton"
 import { useImmer } from "use-immer"
 
 const isItem = (value: unknown): value is ItemType =>
@@ -78,11 +77,7 @@ export const Gear = () => {
               onClick={() => {
                 toggleOpen(item.key)
               }}
-              action={
-                <ActionButton onClick={() => setEditingGearId(itemId)}>
-                  Edit
-                </ActionButton>
-              }
+              onLongPress={() => setEditingGearId(itemId)}
             ></Item>
           )
         })}
@@ -99,11 +94,7 @@ export const Gear = () => {
               onClick={() => {
                 toggleOpen(item.key)
               }}
-              action={
-                <ActionButton onClick={() => setEditingGearId(itemId)}>
-                  Edit
-                </ActionButton>
-              }
+              onLongPress={() => setEditingGearId(itemId)}
             ></Item>
           )
         })}
@@ -120,11 +111,7 @@ export const Gear = () => {
               onClick={() => {
                 toggleOpen(item.key)
               }}
-              action={
-                <ActionButton onClick={() => setEditingGearId(itemId)}>
-                  Edit
-                </ActionButton>
-              }
+              onLongPress={() => setEditingGearId(itemId)}
             ></Item>
           )
         })}
