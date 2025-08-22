@@ -2,7 +2,7 @@
  * Detects click and long press events on a given element.
  * Uses pointer events which work across devices (mouse, touch, pen).
  */
-import { useRef, useCallback } from "preact/hooks"
+import { useRef, useCallback, useState, useEffect } from "preact/hooks"
 import { JSX } from "preact"
 
 type InteractionCallbacks = {
@@ -16,6 +16,9 @@ type InteractionHandlers = {
   onPointerMove: JSX.PointerEventHandler<HTMLElement>
   onPointerCancel: JSX.PointerEventHandler<HTMLElement>
   onPointerLeave: JSX.PointerEventHandler<HTMLElement>
+  isPressed: boolean
+  longPressProgress: number
+  longPressDuration: number
 }
 
 export const useInteraction = ({
@@ -27,6 +30,24 @@ export const useInteraction = ({
   const isLongPressDetectedRef = useRef(false)
   const shouldFireClickRef = useRef(true)
   const pointerId = useRef<number | null>(null)
+  const [isPressed, setIsPressed] = useState(false)
+  const [longPressProgress, setLongPressProgress] = useState(0)
+  const animationFrameRef = useRef<number | null>(null)
+  const longPressStartTimeRef = useRef<number | null>(null)
+  const longPressDuration = 450 // 450ms threshold for long press
+
+  // Animation frame callback to update the progress
+  const updateLongPressProgress = useCallback(() => {
+    if (longPressStartTimeRef.current === null) return
+
+    const elapsed = Date.now() - longPressStartTimeRef.current
+    const progress = Math.min(elapsed / longPressDuration, 1)
+    setLongPressProgress(progress)
+
+    if (progress < 1) {
+      animationFrameRef.current = requestAnimationFrame(updateLongPressProgress)
+    }
+  }, [longPressDuration])
 
   // Clear the timeout and reset state
   const clearLongPressTimeout = useCallback(() => {
@@ -34,6 +55,14 @@ export const useInteraction = ({
       window.clearTimeout(longPressTimeoutRef.current)
       longPressTimeoutRef.current = null
     }
+
+    if (animationFrameRef.current !== null) {
+      cancelAnimationFrame(animationFrameRef.current)
+      animationFrameRef.current = null
+    }
+
+    longPressStartTimeRef.current = null
+    setLongPressProgress(0)
     isLongPressDetectedRef.current = false
   }, [])
 
@@ -43,7 +72,20 @@ export const useInteraction = ({
     initialPositionRef.current = null
     shouldFireClickRef.current = true
     pointerId.current = null
+    setIsPressed(false)
   }, [clearLongPressTimeout])
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (animationFrameRef.current !== null) {
+        cancelAnimationFrame(animationFrameRef.current)
+      }
+      if (longPressTimeoutRef.current !== null) {
+        window.clearTimeout(longPressTimeoutRef.current)
+      }
+    }
+  }, [])
 
   // Handle pointer down event
   const onPointerDown = useCallback(
@@ -60,14 +102,25 @@ export const useInteraction = ({
       // Clear any existing timeout
       clearLongPressTimeout()
 
-      // Set up a new long press detection
+      // Set pressed state
+      setIsPressed(true)
+
+      // Set up animation and long press detection
       if (onLongPress) {
         isLongPressDetectedRef.current = false
+
+        // Start tracking progress
+        longPressStartTimeRef.current = Date.now()
+        animationFrameRef.current = requestAnimationFrame(
+          updateLongPressProgress
+        )
+
+        // Set up the actual long press timeout
         longPressTimeoutRef.current = window.setTimeout(() => {
           isLongPressDetectedRef.current = true
           shouldFireClickRef.current = false // Don't fire click after long press
           onLongPress()
-        }, 450) // 450ms threshold for long press
+        }, longPressDuration)
       }
 
       // For button elements, capture the pointer to ensure we get all events
@@ -75,7 +128,12 @@ export const useInteraction = ({
         e.currentTarget.setPointerCapture(e.pointerId)
       }
     },
-    [onLongPress, clearLongPressTimeout]
+    [
+      onLongPress,
+      clearLongPressTimeout,
+      updateLongPressProgress,
+      longPressDuration,
+    ]
   )
 
   // Handle pointer up event
@@ -174,5 +232,8 @@ export const useInteraction = ({
     onPointerMove,
     onPointerCancel,
     onPointerLeave,
+    isPressed,
+    longPressProgress,
+    longPressDuration,
   }
 }
