@@ -1,6 +1,6 @@
 import { Stat } from "./Stat"
 import { Value } from "../data/useStats"
-import { useInteraction } from "./useInteraction"
+import { InteractiveElement } from "./InteractiveElement"
 
 export const AttributeBox = ({
   name,
@@ -8,29 +8,26 @@ export const AttributeBox = ({
   modifier,
   onClick,
   onLongPress,
+  ...rest
 }: {
   name: string
   value: Value
   modifier: Value
   onClick: () => void
-  onLongPress?: () => void
+  onLongPress: () => void
 }) => {
-  const interaction = useInteraction({
-    onClick,
-    onLongPress,
-  })
-
   return (
-    <button
-      className="flex flex-col justify-center items-center p-2 bg-[oklch(0.2507_0.0321_232.15)] cursor-pointer hover:bg-[oklch(0.2707_0.0321_232.15)] active:bg-[oklch(0.2307_0.0321_232.15)] rounded-lg"
-      type="button"
-      {...interaction}
+    <InteractiveElement
+      onClick={onClick}
+      onLongPress={onLongPress}
+      className="flex flex-col justify-center items-center p-2"
+      {...rest}
     >
       <Stat value={modifier} className="text-3xl" />
       <div className="flex gap-2 items-baseline">
         {name}
         <Stat value={value} />
       </div>
-    </button>
+    </InteractiveElement>
   )
 }
