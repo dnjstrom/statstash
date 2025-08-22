@@ -58,11 +58,13 @@ export const Dice = () => {
         {previousThrow ? (
           <div className="h-full flex flex-col justify-center items-center">
             <div className="relative text-9xl/24 font-black w-full text-center">
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 -translate-y-full max-w-[80%] text-lg break-all text-center">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 -translate-y-full w-full text-lg break-all text-center flex flex-col gap-0">
                 {previousThrow.equation}
                 {previousThrow.outcome !== previousThrow.value.toString() && (
                   <>
-                    <span className="text-slate-400">=</span>
+                    <div className="text-[oklch(0.2507_0.0321_232.15)] text-2xl -my-1 -mt-2">
+                      =
+                    </div>
                     {previousThrow.outcome}
                   </>
                 )}
