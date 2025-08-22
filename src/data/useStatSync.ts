@@ -55,7 +55,6 @@ export const useStatSync = () => {
   }
 
   const initialDocs = useDbChanges((change) => {
-    console.log("useDbChanges on change")
     change.change.docs.forEach((doc) => {
       // Handle remote deletes
       if ("_deleted" in doc) {

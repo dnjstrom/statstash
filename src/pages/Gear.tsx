@@ -7,8 +7,8 @@ import { useStats } from "../data/useStats"
 import { Page } from "./Page"
 import { v4 } from "uuid"
 import type { Item as ItemType } from "../data/useStatSync"
-import { ItemSchema } from "../data/useStatSync"
 import { Item } from "../components/Item"
+import { ItemForm } from "../components/ItemForm"
 import { useImmer } from "use-immer"
 
 const isItem = (value: unknown): value is ItemType =>
@@ -133,72 +133,19 @@ export const Gear = () => {
         }}
         orientation="center"
       >
-        <form
-          className="flex flex-col gap-4"
-          onSubmit={(event) => {
-            event.preventDefault()
-            event.stopPropagation()
-            const formData = new FormData(event.currentTarget)
-
-            const key = `gear.${editingGearId}`
-
-            const name = formData.get("name")
-
-            if (!name || typeof name !== "string") return
-
-            const description = formData.get("description")
-            const locationValue = formData.get("location") as string
-
-            // Use the ItemSchema to parse and validate the location
-            const locationResult =
-              ItemSchema.shape.location.safeParse(locationValue)
-            const location = locationResult.success
-              ? locationResult.data
-              : "CARRIED"
-
+        <ItemForm
+          item={editingGear}
+          onSubmit={(item) => {
+            const key = item.key || `gear.${editingGearId}`
             stats.set(key, {
               type: "item",
-              name,
-              description: typeof description === "string" ? description : null,
-              location,
+              name: item.name,
+              description: item.description,
+              location: item.location,
             })
-
-            event.currentTarget.reset()
             setEditingGearId(undefined)
           }}
-        >
-          <label className="font-medium">Name</label>
-          <input
-            type="text"
-            name="name"
-            className="border border-white rounded px-2 py-1"
-            autofocus
-            defaultValue={editingGear?.name || ""}
-          />
-
-          <label className="font-medium">Description</label>
-          <textarea
-            name="description"
-            className="border border-white rounded px-2 py-1"
-            rows={5}
-            defaultValue={editingGear?.description || ""}
-          />
-
-          <label className="font-medium">Location</label>
-          <select
-            name="location"
-            defaultValue={editingGear?.location || "CARRIED"}
-            className="border border-white rounded px-2 py-1"
-          >
-            <option value="EQUIPPED">Equipped</option>
-            <option value="CARRIED">Carried</option>
-            <option value="STORED">Stored</option>
-          </select>
-
-          <button type="submit" className="border rounded">
-            Save
-          </button>
-        </form>
+        />
       </Modal>
     </Page>
   )

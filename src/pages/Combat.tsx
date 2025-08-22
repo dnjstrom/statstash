@@ -2,6 +2,7 @@ import { useState } from "preact/hooks"
 import { Dot } from "../components/Dot"
 import { Section } from "../components/Section"
 import { SkillBox } from "../components/SkillBox"
+import { SkillProficiencyForm } from "../components/SkillProficiencyForm"
 import { Stat } from "../components/Stat"
 import { StatBox } from "../components/StatBox"
 import { Throw } from "../components/Throw"
@@ -216,53 +217,29 @@ export const Combat = () => {
         }}
         orientation="center"
       >
-        <form
-          className="flex flex-col gap-4"
-          onSubmit={(event) => {
-            event.preventDefault()
-            event.stopPropagation()
-            const formData = new FormData(event.currentTarget)
-
-            if (!editingSavingThrowId) return
-
-            const isProficient = formData.get("proficient") === "on" ? "1" : "0"
-
-            stats.set(
-              `${editingSavingThrowId}.saving_throw.proficient`,
-              isProficient
-            )
-
-            event.currentTarget.reset()
-            setEditingSavingThrowId(undefined)
-          }}
-        >
-          <label className="font-medium">
-            {editingSavingThrowId
-              ? editingSavingThrowId.charAt(0).toUpperCase() +
-                editingSavingThrowId.slice(1)
-              : ""}{" "}
-            Saving Throw
-          </label>
-
-          <div className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              name="proficient"
-              id="proficient"
-              defaultChecked={
-                editingSavingThrowId
-                  ? stats.get(`${editingSavingThrowId}.saving_throw.proficient`)
-                      ?.value === "1"
-                  : false
-              }
-            />
-            <label htmlFor="proficient">Proficient</label>
-          </div>
-
-          <button type="submit" className="border rounded">
-            Save
-          </button>
-        </form>
+        {editingSavingThrowId && (
+          <SkillProficiencyForm
+            skillId={`${editingSavingThrowId}.saving_throw`}
+            skillName={`${
+              editingSavingThrowId.charAt(0).toUpperCase() +
+              editingSavingThrowId.slice(1)
+            } Saving Throw`}
+            isProficient={
+              stats.get(`${editingSavingThrowId}.saving_throw.proficient`)
+                ?.value === "1"
+            }
+            onSubmit={(skillId, isProficient) => {
+              const proficientValue = isProficient ? "1" : "0"
+              // Extract the base attribute name from the skillId
+              const attributeName = skillId.split(".")[0]
+              stats.set(
+                `${attributeName}.saving_throw.proficient`,
+                proficientValue
+              )
+              setEditingSavingThrowId(undefined)
+            }}
+          />
+        )}
       </Modal>
     </Page>
   )

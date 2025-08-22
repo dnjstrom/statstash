@@ -4,6 +4,8 @@ import { useExpressionResolver } from "../utils/useExpressionResolver"
 import { useToast } from "../components/Toast"
 import { AttributeBox } from "../components/AttributeBox"
 import { SkillBox } from "../components/SkillBox"
+import { AttributeForm } from "../components/AttributeForm"
+import { SkillProficiencyForm } from "../components/SkillProficiencyForm"
 import { Section } from "../components/Section"
 import { Throw } from "../components/Throw"
 import { Page } from "./Page"
@@ -380,52 +382,17 @@ export const Skills = () => {
         }}
         orientation="center"
       >
-        <form
-          className="flex flex-col gap-4"
-          onSubmit={(event) => {
-            event.preventDefault()
-            event.stopPropagation()
-            const formData = new FormData(event.currentTarget)
-
-            if (!editingAttributeId) return
-
-            const value = formData.get("value")
-
-            if (!value || typeof value !== "string") return
-
-            const attributeKey = `${editingAttributeId}.attribute`
-            stats.set(attributeKey, value)
-
-            event.currentTarget.reset()
-            setEditingAttributeId(undefined)
-          }}
-        >
-          <label className="font-medium">
-            {editingAttributeId
-              ? editingAttributeId.charAt(0).toUpperCase() +
-                editingAttributeId.slice(1)
-              : ""}{" "}
-            Value
-          </label>
-          <input
-            type="number"
-            name="value"
-            min="1"
-            className="border border-white rounded px-2 py-1"
-            autofocus
-            defaultValue={
-              (editingAttributeId &&
-                stats
-                  .get(`${editingAttributeId}.attribute`)
-                  ?.value?.toString()) ||
-              ""
-            }
+        {editingAttributeId && (
+          <AttributeForm
+            attributeId={editingAttributeId}
+            attributeValue={stats.get(`${editingAttributeId}.attribute`)}
+            onSubmit={(attributeId, value) => {
+              const attributeKey = `${attributeId}.attribute`
+              stats.set(attributeKey, value)
+              setEditingAttributeId(undefined)
+            }}
           />
-
-          <button type="submit" className="border rounded">
-            Save
-          </button>
-        </form>
+        )}
       </Modal>
 
       <Modal
@@ -435,50 +402,23 @@ export const Skills = () => {
         }}
         orientation="center"
       >
-        <form
-          className="flex flex-col gap-4"
-          onSubmit={(event) => {
-            event.preventDefault()
-            event.stopPropagation()
-            const formData = new FormData(event.currentTarget)
-
-            if (!editingSkillId) return
-
-            const isProficient = formData.get("proficient") === "on" ? "1" : "0"
-
-            stats.set(`${editingSkillId}.proficient`, isProficient)
-
-            event.currentTarget.reset()
-            setEditingSkillId(undefined)
-          }}
-        >
-          <label className="font-medium">
-            {editingSkillId
-              ? editingSkillId
-                  .split("_")
-                  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                  .join(" ")
-              : ""}
-          </label>
-
-          <div className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              name="proficient"
-              id="proficient"
-              defaultChecked={
-                editingSkillId
-                  ? stats.get(`${editingSkillId}.proficient`)?.value === "1"
-                  : false
-              }
-            />
-            <label htmlFor="proficient">Proficient</label>
-          </div>
-
-          <button type="submit" className="border rounded">
-            Save
-          </button>
-        </form>
+        {editingSkillId && (
+          <SkillProficiencyForm
+            skillId={editingSkillId}
+            skillName={editingSkillId
+              .split("_")
+              .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+              .join(" ")}
+            isProficient={
+              stats.get(`${editingSkillId}.proficient`)?.value === "1"
+            }
+            onSubmit={(skillId, isProficient) => {
+              const proficientValue = isProficient ? "1" : "0"
+              stats.set(`${skillId}.proficient`, proficientValue)
+              setEditingSkillId(undefined)
+            }}
+          />
+        )}
       </Modal>
     </Page>
   )
