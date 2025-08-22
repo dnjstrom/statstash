@@ -8,11 +8,13 @@ export const InteractiveElement = ({
   onLongPress,
   children,
   className = "",
+  allowTextSelection = false,
 }: {
   onClick: () => void
   onLongPress?: () => void
   children: ReactNode
   className?: string
+  allowTextSelection?: boolean
 }) => {
   const interaction = useInteraction({
     onClick,
@@ -32,6 +34,9 @@ export const InteractiveElement = ({
     <button
       className={cn(
         "cursor-pointer bg-[oklch(0.2507_0.0321_232.15)] hover:bg-[oklch(0.2707_0.0321_232.15)] active:bg-[oklch(0.2307_0.0321_232.15)] rounded-lg transition-all",
+        allowTextSelection
+          ? "select-text touch-auto"
+          : "select-none touch-manipulation",
         className
       )}
       style={buttonStyle}
