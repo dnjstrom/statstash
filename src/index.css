@@ -17,4 +17,5 @@ body {
    * See: https://stackoverflow.com/a/69589919
    */
   overflow: hidden;
+  user-select: none;
 }
